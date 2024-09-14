@@ -1,20 +1,25 @@
 import axios from "axios";
 import React, { useState } from "react";
 import Input from "../UI/Input";
+import Home from "../../pages/Home";
+
+const API_KEY = "AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0";
+const SIGNUP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
+const SIGNIN_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
 
 const AuthForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
+  const [isSignUp, setIsSignUp] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isErrorVisible, setIsErrorVisible] = useState(false);
 
-  const API_KEY = "AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0";
-  const SIGNUP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
+  const isSignUpHandler = () => {
+    setIsSignUp((prev) => !prev);
+  };
 
   const authFormHandler = async (event) => {
     event.preventDefault();
-
     const userAuthData = {
       email: email,
       password: password,
@@ -23,37 +28,48 @@ const AuthForm = () => {
 
     setErrorMessage("");
 
-    try {
-      if (password === document.getElementById("confirm_password").value) {
-        const response = await axios.post(SIGNUP_URL, userAuthData);
+    if (!isSignUp) {
+      try {
+        const response = await axios.post(SIGNIN_URL, userAuthData);
         console.log(response.data);
-      } else {
-        setErrorMessage("Password doesnt Match");
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        if (password === document.getElementById("confirm_password").value) {
+          const response = await axios.post(SIGNUP_URL, userAuthData);
+          console.log(response.data);
+        } else {
+          setErrorMessage("* Password doesnt Match");
+          setIsErrorVisible(true);
+          setTimeout(() => setIsErrorVisible(false), 3000);
+        }
+      } catch (error) {
+        if (error.response.data.error.message === "INVALID_EMAIL") {
+          setErrorMessage("* Enter a Valid Email");
+        } else if (error.response.data.error.message === "EMAIL_EXISTS") {
+          setErrorMessage("* Email is Already Registered");
+        } else if (
+          error.response.data.error.message ===
+          "WEAK_PASSWORD : Password should be at least 6 characters"
+        ) {
+          setErrorMessage("* Password should be at least 6 characters");
+        }
         setIsErrorVisible(true);
         setTimeout(() => setIsErrorVisible(false), 3000);
       }
-    } catch (error) {
-      if (error.response.data.error.message === "EMAIL_EXISTS") {
-        setErrorMessage("*Email is Already Registered");
-        setIsErrorVisible(true);
-      } else if (
-        error.response.data.error.message ===
-        "WEAK_PASSWORD : Password should be at least 6 characters"
-      ) {
-        setErrorMessage(
-          "*Weak Password, Password should be at least 6 characters",
-        );
-        setIsErrorVisible(true);
-      }
-      setTimeout(() => setIsErrorVisible(false), 3000);
     }
   };
   return (
     <div className="image-container relative flex h-full w-full items-center justify-center bg-gray-100">
-      <section className="h-auto w-96 p-5">
-        <form onSubmit={authFormHandler} className="border border-gray-400 p-4">
+      <section className="h-auto w-80 p-4 max-xs:p-1">
+        <form
+          onSubmit={authFormHandler}
+          className="border border-gray-400 px-4 py-6"
+        >
           <h1 className="mb-6 py-4 text-center text-2xl font-medium text-black">
-            Sign Up
+            {!isSignUp ? "Login" : "Sign Up"}
           </h1>
           <div className="flex flex-col gap-6">
             {/* Email Input */}
@@ -66,7 +82,6 @@ const AuthForm = () => {
               onChange={(e) => setEmail(e.target.value)}
               autoFocus={true}
             />
-
             {/* Password Input */}
             <Input
               label="Password"
@@ -76,15 +91,15 @@ const AuthForm = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-
             {/* Confirm Password Input */}
-
-            <Input
-              label="Confirm Password"
-              id="confirm_password"
-              name="confirm_password"
-              type="password"
-            />
+            {isSignUp && (
+              <Input
+                label="Confirm Password"
+                id="confirm_password"
+                name="confirm_password"
+                type="password"
+              />
+            )}
           </div>
 
           <div className="relative space-y-1 pt-2">
@@ -98,20 +113,32 @@ const AuthForm = () => {
               type="submit"
               className="w-full rounded-xl border-none bg-blue-500 py-2 text-white hover:bg-blue-600 focus:bg-blue-500 disabled:bg-opacity-70"
             >
-              Sign Up
+              {!isSignUp ? "Login" : "Sign Up"}
             </button>
           </div>
+
+          {!isSignUp && (
+            <div className="flex justify-center pt-4">
+              <button className="text-blue-700 underline decoration-blue-700">
+                Forgot Password
+              </button>
+            </div>
+          )}
         </form>
 
         <div className="">
           <button
+            onClick={isSignUpHandler}
             type="button"
             className="mt-4 w-full border border-emerald-800 bg-emerald-300 bg-opacity-50 px-4 py-2 text-emerald-900 hover:bg-opacity-75"
           >
-            Have an Account? Login
+            {!isSignUp
+              ? `Don't have an Account? Sign up`
+              : "Have an Account? Login"}
           </button>
         </div>
       </section>
+      <Home />
     </div>
   );
 };
