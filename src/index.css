@@ -43,3 +43,31 @@ main {
   flex-direction: column;
   height: 100%;
 }
+
+.image-container::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25%;
+  height: 500px;
+
+  background-position: center;
+  background-color: #0165ff;
+  border-radius: 0% 0% 0% 100%;
+}
+
+.image-container::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 24%;
+  width: 20%;
+  height: 90px;
+
+  background-position: center;
+  background-color: #0165ff;
+  border-radius: 0% 0% 10% 90%;
+}
