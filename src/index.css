@@ -44,30 +44,50 @@ main {
   height: 100%;
 }
 
-.image-container::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 25%;
-  height: 500px;
+/* input:-webkit-autofill {
+  background-color: black !important;
+  -webkit-box-shadow: 0 0 0 30px black inset !important; /* Change #fff to your preferred background color */
+/*box-shadow: 0 0 0 30px #fff inset !important;
+  -webkit-text-fill-color: #000 !important; /* Change text color if needed */
+/*} */
 
-  background-position: center;
-  background-color: #0165ff;
-  border-radius: 0% 0% 0% 100%;
+@layer utilities {
+  .loginput:-webkit-autofill,
+  .loginput:-webkit-autofill:hover,
+  .loginput:-webkit-autofill:focus,
+  .loginput:-webkit-autofill:active {
+    background-color: transparent !important; /* Use the transparent background color for Tailwind defined bg to be active */
+    -webkit-text-fill-color: #6b7280 !important; /* Ensure text color stays consistent */
+    /*-webkit-box-shadow: 0 0 0px 1000px transprent inset !important; /* Remove browser autofill shadow */
+  }
 }
 
-.image-container::after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 24%;
-  width: 20%;
-  height: 90px;
+@media (min-width: 768px) {
+  .image-container::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25%;
+    height: 500px;
 
-  background-position: center;
-  background-color: #0165ff;
-  border-radius: 0% 0% 10% 90%;
+    background-position: center;
+    background-color: #0165ff;
+    border-radius: 0% 0% 0% 100%;
+  }
+
+  .image-container::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 24%;
+    width: 20%;
+    height: 90px;
+
+    background-position: center;
+    background-color: #0165ff;
+    border-radius: 0% 0% 10% 90%;
+  }
 }

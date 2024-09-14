@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import Input from "../UI/Input";
-import Home from "../../pages/Home";
+import { useNavigate } from "react-router-dom";
 
 const API_KEY = "AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0";
 const SIGNUP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
@@ -14,8 +14,12 @@ const AuthForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isErrorVisible, setIsErrorVisible] = useState(false);
 
+  const naviateTo = useNavigate();
+
   const isSignUpHandler = () => {
     setIsSignUp((prev) => !prev);
+    setEmail("");
+    setPassword("");
   };
 
   const authFormHandler = async (event) => {
@@ -25,13 +29,14 @@ const AuthForm = () => {
       password: password,
       returnSecureToken: true,
     };
-
     setErrorMessage("");
-
     if (!isSignUp) {
       try {
         const response = await axios.post(SIGNIN_URL, userAuthData);
         console.log(response.data);
+        setEmail("");
+        setPassword("");
+        naviateTo("/home", { replace: true });
       } catch (error) {
         console.log(error);
       }
@@ -39,6 +44,8 @@ const AuthForm = () => {
       try {
         if (password === document.getElementById("confirm_password").value) {
           const response = await axios.post(SIGNUP_URL, userAuthData);
+          setEmail("");
+          setPassword("");
           console.log(response.data);
         } else {
           setErrorMessage("* Password doesnt Match");
@@ -62,8 +69,8 @@ const AuthForm = () => {
     }
   };
   return (
-    <div className="image-container relative flex h-full w-full items-center justify-center bg-gray-100">
-      <section className="h-auto w-80 p-4 max-xs:p-1">
+    <div className="image-container relative flex h-full w-full items-center justify-center bg-gray-100 max-xs:items-start max-xs:pt-12">
+      <section className="h-auto w-[21rem] p-4 max-xs:p-1">
         <form
           onSubmit={authFormHandler}
           className="border border-gray-400 px-4 py-6"
@@ -81,6 +88,7 @@ const AuthForm = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoFocus={true}
+              isSignUp={isSignUp}
             />
             {/* Password Input */}
             <Input
@@ -90,6 +98,7 @@ const AuthForm = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              isSignUp={isSignUp}
             />
             {/* Confirm Password Input */}
             {isSignUp && (
@@ -98,6 +107,7 @@ const AuthForm = () => {
                 id="confirm_password"
                 name="confirm_password"
                 type="password"
+                isSignUp={isSignUp}
               />
             )}
           </div>
@@ -111,7 +121,7 @@ const AuthForm = () => {
             <button
               // disabled
               type="submit"
-              className="w-full rounded-xl border-none bg-blue-500 py-2 text-white hover:bg-blue-600 focus:bg-blue-500 disabled:bg-opacity-70"
+              className={`w-full border-none bg-blue-500 py-2 text-white hover:bg-blue-600 focus:bg-blue-500 disabled:bg-opacity-70 ${!isSignUp ? "rounded-xl" : "rounded-3xl"}`}
             >
               {!isSignUp ? "Login" : "Sign Up"}
             </button>
@@ -138,7 +148,6 @@ const AuthForm = () => {
           </button>
         </div>
       </section>
-      <Home />
     </div>
   );
 };
