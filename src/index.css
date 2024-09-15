@@ -19,32 +19,32 @@ code {
 html,
 body,
 #root {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-  height: 100%;
-  width: 100%;
-  min-width: 345px;
-  /* overflow-x: auto; */
-  scroll-behavior: smooth;
+	margin: 0;
+	padding: 0;
+	min-height: 100%;
+	height: 100%;
+	width: 100%;
+	min-width: 345px;
+	/* overflow-x: auto; */
+	scroll-behavior: smooth;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  /* overflow-x: hidden; */
-  word-break: break-word;
-  /* font-family: "Poppins", sans-serif; */
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	/* overflow-x: hidden; */
+	word-break: break-word;
+	/* font-family: "Poppins", sans-serif; */
 }
 
 main {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
 }
 
 /* input:-webkit-autofill {
@@ -55,42 +55,42 @@ main {
 /*} */
 
 @layer utilities {
-  .loginput:-webkit-autofill,
-  .loginput:-webkit-autofill:hover,
-  .loginput:-webkit-autofill:focus,
-  .loginput:-webkit-autofill:active {
-    background-color: transparent !important; /* Use the transparent background color for Tailwind defined bg to be active */
-    -webkit-text-fill-color: #6b7280 !important; /* Ensure text color stays consistent */
-    /*-webkit-box-shadow: 0 0 0px 1000px transprent inset !important; /* Remove browser autofill shadow */
-  }
+	.loginput:-webkit-autofill,
+	.loginput:-webkit-autofill:hover,
+	.loginput:-webkit-autofill:focus,
+	.loginput:-webkit-autofill:active {
+		background-color: transparent !important; /* Use the transparent background color for Tailwind defined bg to be active */
+		-webkit-text-fill-color: #6b7280 !important; /* Ensure text color stays consistent */
+		/*-webkit-box-shadow: 0 0 0px 1000px transprent inset !important; /* Remove browser autofill shadow */
+	}
 }
 
 @media (min-width: 768px) {
-  .image-container::before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 25%;
-    height: 500px;
+	.image-container::before {
+		content: "";
+		display: block;
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 25%;
+		height: 500px;
 
-    background-position: center;
-    background-color: #0165ff;
-    border-radius: 0% 0% 0% 100%;
-  }
+		background-position: center;
+		background-color: #0165ff;
+		border-radius: 0% 0% 0% 100%;
+	}
 
-  .image-container::after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 24%;
-    width: 20%;
-    height: 90px;
+	.image-container::after {
+		content: "";
+		display: block;
+		position: absolute;
+		top: 0;
+		right: 24%;
+		width: 20%;
+		height: 90px;
 
-    background-position: center;
-    background-color: #0165ff;
-    border-radius: 0% 0% 10% 90%;
-  }
+		background-position: center;
+		background-color: #0165ff;
+		border-radius: 0% 0% 10% 90%;
+	}
 }
