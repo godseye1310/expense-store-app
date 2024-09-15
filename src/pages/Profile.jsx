@@ -3,6 +3,7 @@ import useAuth from "../store/auth-context";
 import axios from "axios";
 import { VscGlobe } from "react-icons/vsc";
 import { FaGithub } from "react-icons/fa";
+import VerifyEmailBtn from "../components/profile/VerifyEmailBtn";
 
 const API_KEY = `AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0`;
 
@@ -18,9 +19,9 @@ const Profile = () => {
 
 	let pfc = 0;
 
-	if (displayName !== "" && photoUrl !== "") {
+	if (displayName && photoUrl) {
 		pfc = 100;
-	} else if (displayName !== "" || photoUrl !== "") {
+	} else if (displayName || photoUrl) {
 		pfc = 50;
 	}
 
@@ -163,6 +164,7 @@ const Profile = () => {
 						</button>
 					</div>
 				</form>
+				<VerifyEmailBtn />
 			</div>
 		</div>
 	);
