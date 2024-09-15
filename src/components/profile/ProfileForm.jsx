@@ -1,6 +1,6 @@
 import React from "react";
 import { VscGlobe } from "react-icons/vsc";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaUserCircle } from "react-icons/fa";
 import VerifyEmailBtn from "./VerifyEmailBtn";
 import { MdVerified } from "react-icons/md";
 
@@ -19,23 +19,30 @@ const ProfileForm = ({
 			onSubmit={handlePrfofileSubmit}
 			className="relative w-3/4 border-b-2 border-b-gray-600 bg-white px-2 py-8 shadow-lg shadow-slate-500 max-md:w-full"
 		>
-			<div className="items- inline-flex gap-1 pr-4">
-				<h1 className="pb-8 text-3xl leading-normal underline">
+			<div className="flex items-start gap-1 pb-10 pr-4 pt-5 max-xs:justify-center">
+				<h1 className="text-3xl leading-normal underline">
 					Contact Details
 				</h1>
-				<img
-					src={photoUrl}
-					alt={displayName}
-					className="size-12 rounded-full"
-				/>
+
+				{photoUrl ? (
+					<img
+						src={photoUrl}
+						alt={displayName}
+						className="size-12 rounded-full object-cover object-center"
+					/>
+				) : (
+					<FaUserCircle className="size-10 rounded-full" />
+				)}
 			</div>
 			<section className="flex w-full justify-evenly gap-x-3 max-md:flex-col max-md:gap-5">
-				<div className="flex w-1/2 max-md:w-full max-md:justify-between max-xs:flex-col">
+				<div className="flex w-2/5 items-center max-md:w-full max-md:justify-between max-xs:flex-col">
 					<label
 						htmlFor="name"
-						className="flex w-1/3 items-start gap-1 text-start max-xs:w-full"
+						className="flex w-1/3 items-center gap-1 text-start max-xs:w-full"
 					>
-						<FaGithub className="inline-block text-2xl" />
+						<span>
+							<FaGithub className="text-2xl" />
+						</span>
 						Full Name:
 					</label>
 					<input
@@ -49,12 +56,14 @@ const ProfileForm = ({
 						className="w-2/3 rounded border-2 border-gray-300 bg-white px-3 py-1 outline-none focus:border-gray-500 max-xs:w-full"
 					/>
 				</div>
-				<div className="flex w-1/2 items-baseline max-md:w-full max-md:justify-between max-xs:flex-col">
+				<div className="flex w-3/5 items-center max-md:w-full max-md:justify-between max-xs:flex-col">
 					<label
 						htmlFor="pfpurl"
-						className="flex w-1/3 items-start gap-1 text-start max-xs:w-full"
+						className="flex w-1/3 items-center gap-1 text-start max-xs:w-full"
 					>
-						<VscGlobe className="inline-block text-2xl" />
+						<span>
+							<VscGlobe className="text-2xl" />
+						</span>
 						Profile Photo URL
 					</label>
 					<input
@@ -88,8 +97,9 @@ const ProfileForm = ({
 				</button>
 
 				<button
+					disabled
 					type="button"
-					className="absolute bottom-8 right-3 rounded border-2 border-red-500 bg-white px-2 py-0.5 font-medium text-red-400 hover:bg-rose-100"
+					className="disabled-hover:bg-none absolute bottom-8 right-3 rounded border-2 border-red-500 bg-white px-2 py-0.5 font-medium text-red-400 hover:bg-rose-100 disabled:border-opacity-50 disabled:text-opacity-50 disabled:hover:bg-inherit"
 				>
 					cancel
 				</button>

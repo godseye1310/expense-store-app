@@ -67,7 +67,7 @@ const Profile = () => {
 		if (token) {
 			fetchUserData();
 		}
-	}, [token]);
+	}, [token, navigateTo]);
 
 	return (
 		<div className="h-full w-full pt-2">
