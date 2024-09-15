@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogIn = (token) => {
     setToken(token);
+    localStorage.setItem("token", token);
   };
 
   const handleLogOut = () => {

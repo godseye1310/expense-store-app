@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAuth from "../store/auth-context";
 import axios from "axios";
 import { VscGlobe } from "react-icons/vsc";
 import { FaGithub } from "react-icons/fa";
 
-const UPDATE_PROFLIE_URL = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0`;
+const API_KEY = `AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0`;
+
+const UPDATE_USER_URL = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${API_KEY}`;
+const FETCH_USER_URL = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`;
 
 const Profile = () => {
   const [displayName, setDisplayName] = useState("");
@@ -26,12 +29,29 @@ const Profile = () => {
     try {
       // console.log(profileData);
 
-      const response = await axios.post(UPDATE_PROFLIE_URL, profileData);
+      const response = await axios.post(UPDATE_USER_URL, profileData);
       console.log(response.data);
     } catch (error) {
       console.log(error.response);
     }
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.post(FETCH_USER_URL, { idToken: token });
+        console.log(response.data);
+        setDisplayName(response.data.users[0].displayName);
+        setPhotoUrl(response.data.users[0].photoUrl);
+      } catch (error) {
+        console.log(error.response);
+      }
+    };
+
+    if (token) {
+      fetchUserData();
+    }
+  }, [token]);
 
   return (
     <div className="h-full w-full pt-2">
@@ -51,9 +71,16 @@ const Profile = () => {
       <div className="flex justify-end px-4 py-8 max-md:justify-center">
         <form
           onSubmit={handlePrfofileSubmit}
-          className="relative w-3/4 border-b-2 border-b-gray-400 bg-slate-200 px-2 py-8"
+          className="relative w-3/4 border-b-2 border-b-gray-400 bg-white px-2 py-8 shadow-lg max-md:w-full"
         >
-          <h1 className="pb-8 text-2xl">Contact Details</h1>
+          <div className="inline-flex items-stretch gap-1 pr-4">
+            <h1 className="pb-8 text-3xl">Contact Details</h1>
+            <img
+              src={photoUrl}
+              alt={displayName}
+              className="size-12 rounded-full"
+            />
+          </div>
           <section className="flex w-full justify-evenly gap-x-3 max-md:flex-col max-md:gap-5">
             <div className="flex w-1/2 items-baseline max-md:w-full max-md:justify-between">
               <label
@@ -92,17 +119,23 @@ const Profile = () => {
               />
             </div>
           </section>
-          <div className="mt-6">
+          <div className="mt-6 space-x-1">
             <button
               type="submit"
               className="rounded-lg bg-red-400 px-2 py-1 text-white hover:bg-red-500"
             >
               Update
             </button>
+            <button
+              type="submit"
+              className="rounded-lg bg-red-400 px-2 py-1 text-white hover:bg-red-500"
+            >
+              Edit
+            </button>
 
             <button
               type="button"
-              className="absolute right-3 top-3 rounded border-2 border-red-500 bg-white px-2 py-0.5 font-medium text-red-400 hover:bg-rose-100"
+              className="absolute bottom-8 right-3 rounded border-2 border-red-500 bg-white px-2 py-0.5 font-medium text-red-400 hover:bg-rose-100"
             >
               cancel
             </button>
