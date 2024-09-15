@@ -14,6 +14,7 @@ const AuthForm = () => {
 	const [isSignUp, setIsSignUp] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isErrorVisible, setIsErrorVisible] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const { handleLogIn } = useAuth();
 
@@ -27,6 +28,8 @@ const AuthForm = () => {
 
 	const authFormHandler = async (event) => {
 		event.preventDefault();
+
+		setIsLoading(true);
 		const userAuthData = {
 			email: email,
 			password: password,
@@ -42,7 +45,19 @@ const AuthForm = () => {
 				handleLogIn(response.data.idToken);
 				naviateTo("/home", { replace: true });
 			} catch (error) {
-				console.log(error);
+				console.log(error.response.data);
+				if (
+					error.response.data.error.message ===
+					"INVALID_LOGIN_CREDENTIALS"
+				) {
+					setErrorMessage("* Check your Email or Password");
+				} else if (error.response.data.error.message) {
+					setErrorMessage("* Too many attempts try Again Later");
+				}
+				setIsErrorVisible(true);
+				setTimeout(() => setIsErrorVisible(false), 3000);
+			} finally {
+				setIsLoading(false);
 			}
 		} else {
 			try {
@@ -76,6 +91,8 @@ const AuthForm = () => {
 				}
 				setIsErrorVisible(true);
 				setTimeout(() => setIsErrorVisible(false), 3000);
+			} finally {
+				setIsLoading(false);
 			}
 		}
 	};
@@ -125,17 +142,28 @@ const AuthForm = () => {
 
 					<div className="relative space-y-1 pt-2">
 						<span
-							className={`block transform px-2 text-sm font-medium text-red-600 transition-all duration-300 ease-in ${isErrorVisible ? "visible translate-y-0" : "invisible -translate-y-2"}`}
+							className={`my-0.5 block h-4 transform px-2 text-sm font-medium text-red-600 transition-all duration-300 ease-in ${isErrorVisible ? "visible translate-y-0" : "invisible -translate-y-2"}`}
 						>
-							{errorMessage || "&nbsp;"}
+							{errorMessage}
 						</span>
-						<button
-							// disabled
-							type="submit"
-							className={`w-full border-none bg-blue-500 py-2 text-white hover:bg-blue-600 focus:bg-blue-500 disabled:bg-opacity-70 ${!isSignUp ? "rounded-xl" : "rounded-3xl"}`}
-						>
-							{!isSignUp ? "Login" : "Sign Up"}
-						</button>
+						{!isLoading && (
+							<button
+								// disabled
+								type="submit"
+								className={`w-full border-none bg-blue-500 py-2 text-white hover:bg-blue-600 focus:bg-blue-500 disabled:bg-opacity-70 ${!isSignUp ? "rounded-xl" : "rounded-3xl"}`}
+							>
+								{!isSignUp ? "Login" : "Sign Up"}
+							</button>
+						)}
+						{isLoading && (
+							<div className="flex items-center justify-center">
+								<img
+									src="https://i.gifer.com/7kRE.gif"
+									alt="loading"
+									className="size-10"
+								/>
+							</div>
+						)}
 					</div>
 
 					{!isSignUp && (

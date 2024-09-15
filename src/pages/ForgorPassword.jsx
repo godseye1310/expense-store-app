@@ -5,8 +5,11 @@ import { Link } from "react-router-dom";
 const API_KEY = "AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0";
 const PASSWORD_RESET_LINK = `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${API_KEY}`;
 
+//https://firebase.google.com/docs/reference/rest/auth#section-send-password-reset-email
+
 const ForgorPassword = () => {
-	const [isLoading, setIsLoading] = useState();
+	const [isLoading, setIsLoading] = useState(false);
+	const [message, setMessage] = useState("");
 	const forgorUsersMail = useRef();
 	const handlePasswordRest = async (event) => {
 		event.preventDefault();
@@ -19,9 +22,13 @@ const ForgorPassword = () => {
 				email: forgorUsersMail.current.value,
 			});
 			console.log(response);
+			setMessage(
+				"You can check Your Registerd Email to reset your password",
+			);
 			forgorUsersMail.current.value = "";
 		} catch (error) {
 			console.log(error.response.data);
+			setMessage("Invalid EmailID");
 		} finally {
 			setIsLoading(false);
 		}
@@ -51,7 +58,7 @@ const ForgorPassword = () => {
 				>
 					Send Link
 				</button>
-				<Link className="px-3 text-center text-xs underline">
+				<Link to="/" className="px-3 text-center text-xs underline">
 					Already a user?Login
 				</Link>
 			</form>
@@ -63,7 +70,7 @@ const ForgorPassword = () => {
 						className="h-full"
 					/>
 				)}
-				<p>Hii</p>
+				<p className="text-center">{message}</p>
 			</div>
 		</div>
 	);

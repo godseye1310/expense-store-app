@@ -4,7 +4,6 @@ import { BiSolidHide, BiSolidShow } from "react-icons/bi";
 const Input = ({ label, id, type, value, onChange, autoFocus, isSignUp }) => {
 	const passwordType = useRef();
 	const [show, setShow] = useState(false);
-	// let btn = <BiSolidHide />;
 	const showPassword = (e) => {
 		e.preventDefault();
 		if (id === "password") {
@@ -43,7 +42,7 @@ const Input = ({ label, id, type, value, onChange, autoFocus, isSignUp }) => {
 					onClick={showPassword}
 					className="absolute right-3 top-3 text-white"
 				>
-					{show ? <BiSolidShow /> : <BiSolidHide />}
+					{show ? <BiSolidHide /> : <BiSolidShow />}
 				</button>
 			)}
 			<span
