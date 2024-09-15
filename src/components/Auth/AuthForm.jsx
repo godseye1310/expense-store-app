@@ -36,7 +36,7 @@ const AuthForm = () => {
 		if (!isSignUp) {
 			try {
 				const response = await axios.post(SIGNIN_URL, userAuthData);
-				console.log(response.data);
+				// console.log(response.data);
 				setEmail("");
 				setPassword("");
 				handleLogIn(response.data.idToken);

@@ -29,9 +29,9 @@ const VerifyEmailBtn = () => {
 		<div>
 			<button
 				onClick={mailverifyHandler}
-				className="px-3 py-1 leading-normal underline decoration-blue-700"
+				className="px-0.5 py-1 leading-normal text-blue-700 underline decoration-blue-700"
 			>
-				Vefify Email
+				Verify Your Email
 			</button>
 		</div>
 	);
