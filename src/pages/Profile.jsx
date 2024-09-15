@@ -81,7 +81,7 @@ const Profile = () => {
       <div className="flex justify-end px-4 py-8 max-md:justify-center">
         <form
           onSubmit={handlePrfofileSubmit}
-          className="relative w-3/4 border-b-2 border-b-gray-900 bg-white px-2 py-8 shadow-lg shadow-slate-500 max-md:w-full"
+          className="relative w-3/4 border-b-2 border-b-gray-600 bg-white px-2 py-8 shadow-lg shadow-slate-500 max-md:w-full"
         >
           <div className="items- inline-flex gap-1 pr-4">
             <h1 className="pb-8 text-3xl leading-normal underline">
