@@ -140,8 +140,11 @@ const AuthForm = () => {
 
 					{!isSignUp && (
 						<div className="flex justify-center pt-4">
-							<button className="text-blue-700 underline decoration-blue-700">
-								Forgot Password
+							<button
+								onClick={() => naviateTo("/forgot-password")}
+								className="text-blue-700 underline decoration-blue-700"
+							>
+								Forgot Password?
 							</button>
 						</div>
 					)}

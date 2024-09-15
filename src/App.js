@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import SignInPage from "./pages/SignInPage";
 import Profile from "./pages/Profile";
 import useAuth from "./store/auth-context";
+import ForgorPassword from "./pages/ForgorPassword";
 
 function App() {
 	const { isLoggedIn } = useAuth();
@@ -28,6 +29,10 @@ function App() {
 				{
 					path: "/profile",
 					element: isLoggedIn ? <Profile /> : <Navigate to="/" />,
+				},
+				{
+					path: "/forgot-password",
+					element: !isLoggedIn ? <ForgorPassword /> : <Home />,
 				},
 			],
 		},
