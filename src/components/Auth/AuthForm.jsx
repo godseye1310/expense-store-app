@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import Input from "../UI/Input";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../store/auth-context";
 
 const API_KEY = "AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0";
 const SIGNUP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
@@ -13,6 +14,8 @@ const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isErrorVisible, setIsErrorVisible] = useState(false);
+
+  const { handleLogIn } = useAuth();
 
   const naviateTo = useNavigate();
 
@@ -36,6 +39,7 @@ const AuthForm = () => {
         console.log(response.data);
         setEmail("");
         setPassword("");
+        handleLogIn(response.data.idToken);
         naviateTo("/home", { replace: true });
       } catch (error) {
         console.log(error);
