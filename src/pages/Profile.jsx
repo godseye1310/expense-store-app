@@ -15,6 +15,14 @@ const Profile = () => {
 
   const { token } = useAuth();
 
+  let pfc = 0;
+
+  if (displayName !== "" && photoUrl !== "") {
+    pfc = 100;
+  } else if (displayName !== "" || photoUrl !== "") {
+    pfc = 50;
+  }
+
   const handlePrfofileSubmit = async (event) => {
     event.preventDefault();
 
@@ -28,7 +36,6 @@ const Profile = () => {
 
     try {
       // console.log(profileData);
-
       const response = await axios.post(UPDATE_USER_URL, profileData);
       console.log(response.data);
     } catch (error) {
@@ -44,7 +51,7 @@ const Profile = () => {
         setDisplayName(response.data.users[0].displayName);
         setPhotoUrl(response.data.users[0].photoUrl);
       } catch (error) {
-        console.log(error.response);
+        console.log(error.response.data);
       }
     };
 
@@ -61,9 +68,11 @@ const Profile = () => {
         </h3>
         <div className="flex rounded-lg rounded-r-none bg-red-200 px-3 py-2 pr-0">
           <p className="w-96">
-            Your Profile is <strong>65%</strong> completed. A complete Profile
-            has higher chance of landing a job.{" "}
-            <span className="text-blue-600">Complete now</span>
+            Your Profile is <strong>{pfc}%</strong> completed. A complete
+            Profile has higher chance of landing a job.{" "}
+            {pfc !== 100 && (
+              <span className="text-blue-600">Kindly Complete</span>
+            )}
           </p>
         </div>
       </div>
