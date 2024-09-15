@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useAuth from "../store/auth-context";
 import axios from "axios";
 import { VscGlobe } from "react-icons/vsc";
@@ -12,6 +12,7 @@ const FETCH_USER_URL = `https://identitytoolkit.googleapis.com/v1/accounts:looku
 const Profile = () => {
   const [displayName, setDisplayName] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
+  const inputRef = useRef(null);
 
   const { token } = useAuth();
 
@@ -47,7 +48,7 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.post(FETCH_USER_URL, { idToken: token });
-        console.log(response.data);
+        // console.log(response.data);
         setDisplayName(response.data.users[0].displayName);
         setPhotoUrl(response.data.users[0].photoUrl);
       } catch (error) {
@@ -80,10 +81,12 @@ const Profile = () => {
       <div className="flex justify-end px-4 py-8 max-md:justify-center">
         <form
           onSubmit={handlePrfofileSubmit}
-          className="relative w-3/4 border-b-2 border-b-gray-400 bg-white px-2 py-8 shadow-lg max-md:w-full"
+          className="relative w-3/4 border-b-2 border-b-gray-900 bg-white px-2 py-8 shadow-lg shadow-slate-500 max-md:w-full"
         >
-          <div className="inline-flex items-stretch gap-1 pr-4">
-            <h1 className="pb-8 text-3xl">Contact Details</h1>
+          <div className="items- inline-flex gap-1 pr-4">
+            <h1 className="pb-8 text-3xl leading-normal underline">
+              Contact Details
+            </h1>
             <img
               src={photoUrl}
               alt={displayName}
@@ -91,10 +94,10 @@ const Profile = () => {
             />
           </div>
           <section className="flex w-full justify-evenly gap-x-3 max-md:flex-col max-md:gap-5">
-            <div className="flex w-1/2 items-baseline max-md:w-full max-md:justify-between">
+            <div className="flex w-1/2 max-md:w-full max-md:justify-between max-xs:flex-col">
               <label
                 htmlFor="name"
-                className="flex w-1/3 items-start gap-1 text-start"
+                className="flex w-1/3 items-start gap-1 text-start max-xs:w-full"
               >
                 <FaGithub className="inline-block text-2xl" />
                 Full Name:
@@ -104,15 +107,16 @@ const Profile = () => {
                 name="name"
                 type="text"
                 value={displayName}
+                ref={inputRef}
                 onChange={(e) => setDisplayName(e.target.value)}
                 required
-                className="w-2/3 rounded border-2 border-gray-300 bg-white px-3 py-1 outline-none focus:border-gray-500"
+                className="w-2/3 rounded border-2 border-gray-300 bg-white px-3 py-1 outline-none focus:border-gray-500 max-xs:w-full"
               />
             </div>
-            <div className="flex w-1/2 items-baseline max-md:w-full max-md:justify-between">
+            <div className="flex w-1/2 items-baseline max-md:w-full max-md:justify-between max-xs:flex-col">
               <label
                 htmlFor="pfpurl"
-                className="flex w-1/3 items-start gap-1 text-start"
+                className="flex w-1/3 items-start gap-1 text-start max-xs:w-full"
               >
                 <VscGlobe className="inline-block text-2xl" />
                 Profile Photo URL
@@ -124,7 +128,7 @@ const Profile = () => {
                 value={photoUrl}
                 onChange={(e) => setPhotoUrl(e.target.value)}
                 required
-                className="w-2/3 rounded border-2 border-gray-300 bg-white px-3 py-1 outline-none focus:border-gray-500"
+                className="w-2/3 rounded border-2 border-gray-300 bg-white px-3 py-1 outline-none focus:border-gray-500 max-xs:w-full"
               />
             </div>
           </section>
@@ -136,7 +140,12 @@ const Profile = () => {
               Update
             </button>
             <button
-              type="submit"
+              type="button"
+              onClick={() => {
+                if (inputRef.current) {
+                  inputRef.current.focus();
+                }
+              }}
               className="rounded-lg bg-red-400 px-2 py-1 text-white hover:bg-red-500"
             >
               Edit
@@ -156,5 +165,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-//"Invalid value at 'delete_attribute' (type.googleapis.com/google.cloud.identitytoolkit.v1.SetAccountInfoRequest.UserAttributeName), """
