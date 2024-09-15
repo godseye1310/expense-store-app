@@ -13,6 +13,10 @@ const Home = () => {
           </li>
         </div>
       </div>
+
+      <div className="py-5">
+        <h1 className="text-center text-5xl">Hii New User</h1>
+      </div>
     </div>
   );
 };

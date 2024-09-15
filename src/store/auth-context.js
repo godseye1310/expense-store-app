@@ -11,10 +11,15 @@ export const AuthProvider = ({ children }) => {
     setToken(token);
   };
 
+  const handleLogOut = () => {
+    console.log("logged out");
+  };
+
   const context = {
     token,
     isLoggedIn,
     handleLogIn,
+    handleLogOut,
   };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
