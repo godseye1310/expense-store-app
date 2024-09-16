@@ -70,9 +70,9 @@ const Profile = () => {
 	}, [token, navigateTo]);
 
 	return (
-		<div className="h-full w-full pt-2">
-			<div className="flex justify-between border-b-2 border-b-gray-400 px-1 pb-5 max-sm:flex-col">
-				<h3 className="text-lg font-medium">
+		<div className="h-full w-full">
+			<div className="flex justify-between border-b-2 border-b-gray-400 bg-neutral-400 px-0 pb-5 pt-2 max-sm:flex-col">
+				<h3 className="pl-1 text-lg font-medium">
 					Winners never quit, Quitters never win
 				</h3>
 				<div className="flex rounded-lg rounded-r-none bg-red-200 px-3 py-2 pr-0">

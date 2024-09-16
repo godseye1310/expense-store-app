@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
-import PopInfo from "./PopInfo";
+import LogInfo from "./LogInfo";
 
 const RootLayout = () => {
 	return (
@@ -10,7 +10,7 @@ const RootLayout = () => {
 			<div className="relative h-full w-full bg-gray-100">
 				<Outlet />
 			</div>
-			<PopInfo />
+			<LogInfo />
 		</main>
 	);
 };

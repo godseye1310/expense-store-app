@@ -15,6 +15,7 @@ import ForgorPassword from "./pages/ForgorPassword";
 import ExpensePage from "./pages/ExpensePage";
 import { ExpenseProvider } from "./store/expense-context";
 import { DisplayProvider } from "./store/display-ctx";
+import About from "./pages/About";
 
 function App() {
 	const { isLoggedIn } = useAuth();
@@ -29,6 +30,7 @@ function App() {
 					element: <SignInPage />,
 				},
 				{ path: "/home", element: <Home /> },
+				{ path: "/about", element: <About /> },
 				{
 					path: "/profile",
 					element: isLoggedIn ? <Profile /> : <Navigate to="/" />,
