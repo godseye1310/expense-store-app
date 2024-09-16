@@ -2,12 +2,15 @@ import React from "react";
 import { MdLogout } from "react-icons/md";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../store/auth-context";
+import useDisplay from "../../store/display-ctx";
 
 const Header = () => {
 	const { isLoggedIn, handleLogOut } = useAuth();
+	const { handlePopupDisplay } = useDisplay();
 	const navigateTo = useNavigate();
 	const logOut = () => {
 		handleLogOut();
+		handlePopupDisplay();
 		navigateTo("/", { replace: true });
 	};
 	return (

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Input from "../UI/Input";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../store/auth-context";
+import useDisplay from "../../store/display-ctx";
 
 const API_KEY = "AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0";
 const SIGNUP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
@@ -17,6 +18,7 @@ const AuthForm = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const { handleLogIn } = useAuth();
+	const { handlePopupDisplay } = useDisplay();
 
 	const naviateTo = useNavigate();
 
@@ -43,6 +45,7 @@ const AuthForm = () => {
 				setEmail("");
 				setPassword("");
 				handleLogIn(response.data.idToken);
+				handlePopupDisplay();
 				naviateTo("/home", { replace: true });
 			} catch (error) {
 				console.log(error.response.data);

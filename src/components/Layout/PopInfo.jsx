@@ -1,23 +1,18 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import PopupModal from "../UI/PopupModal";
+import useDisplay from "../../store/display-ctx";
 import useAuth from "../../store/auth-context";
 
 const PopInfo = () => {
-	const [isVisible, setIsVisible] = useState();
-	// const { isLoggedIn: authIsLoggedIn } = useAuth();
+	const { isLoggedIn } = useAuth();
+	const { popupVisible } = useDisplay();
 
-	// const isLoggedIn = useMemo(() => authIsLoggedIn, [authIsLoggedIn]);
-	// useEffect(() => {
-	// 	setIsVisible(true);
-
-	// 	setTimeout(() => setIsVisible(false), 1000);
-	// }, [isLoggedIn]);
 	return (
 		<PopupModal
-			className={`transition-all duration-500 ease-in-out ${isVisible ? "top-[110px] opacity-100" : '"top-0 opacity-0'}`}
+			className={`transition-all duration-500 ease-in-out ${popupVisible ? "top-[110px] opacity-100" : '"top-0 opacity-0'}`}
 		>
 			<p className="w-full rounded-2xl bg-blue-500 px-1 py-2 text-center text-white">
-				{false
+				{isLoggedIn
 					? "Hello, Logged In Successfully"
 					: "Logged Out Successfully"}
 			</p>

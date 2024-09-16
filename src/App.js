@@ -14,6 +14,7 @@ import useAuth from "./store/auth-context";
 import ForgorPassword from "./pages/ForgorPassword";
 import ExpensePage from "./pages/ExpensePage";
 import { ExpenseProvider } from "./store/expense-context";
+import { DisplayProvider } from "./store/display-ctx";
 
 function App() {
 	const { isLoggedIn } = useAuth();
@@ -45,7 +46,9 @@ function App() {
 	]);
 	return (
 		<ExpenseProvider>
-			<RouterProvider router={router} />;
+			<DisplayProvider>
+				<RouterProvider router={router} />
+			</DisplayProvider>
 		</ExpenseProvider>
 	);
 }
