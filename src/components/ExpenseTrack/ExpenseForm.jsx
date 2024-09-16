@@ -25,7 +25,7 @@ const ExpenseForm = () => {
 			descripition: descripition,
 			category: category,
 		};
-		console.log(expense);
+		// console.log(expense);
 		addtoExpenseList(expense);
 	};
 

@@ -52,7 +52,7 @@ const Profile = () => {
 				const response = await axios.post(FETCH_USER_URL, {
 					idToken: token,
 				});
-				console.log(response.data);
+				// console.log(response.data);
 				setDisplayName(response.data.users[0].displayName);
 				setPhotoUrl(response.data.users[0].photoUrl);
 				setVerified(response.data.users[0].emailVerified);

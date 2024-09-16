@@ -14,7 +14,7 @@ export const ExpenseProvider = ({ children }) => {
 		addtoExpenseList,
 	};
 
-	console.log(expenseList);
+	// console.log(expenseList);
 	return (
 		<ExpenseContext.Provider value={expenseCtx}>
 			{children}
