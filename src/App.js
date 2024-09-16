@@ -12,6 +12,8 @@ import SignInPage from "./pages/SignInPage";
 import Profile from "./pages/Profile";
 import useAuth from "./store/auth-context";
 import ForgorPassword from "./pages/ForgorPassword";
+import ExpensePage from "./pages/ExpensePage";
+import { ExpenseProvider } from "./store/expense-context";
 
 function App() {
 	const { isLoggedIn } = useAuth();
@@ -34,10 +36,18 @@ function App() {
 					path: "/forgot-password",
 					element: !isLoggedIn ? <ForgorPassword /> : <Home />,
 				},
+				{
+					path: "/user-expense",
+					element: isLoggedIn ? <ExpensePage /> : <Navigate to="/" />,
+				},
 			],
 		},
 	]);
-	return <RouterProvider router={router} />;
+	return (
+		<ExpenseProvider>
+			<RouterProvider router={router} />;
+		</ExpenseProvider>
+	);
 }
 
 export default App;
