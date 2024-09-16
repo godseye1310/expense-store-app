@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useExpense from "../../store/expense-context";
 import FormOverlayModal from "../UI/FormOverlayModal";
 import useDisplay from "../../store/display-ctx";
@@ -13,11 +13,19 @@ const options = [
 ];
 
 const ExpenseForm = () => {
-	const [amount, setAmount] = useState("");
-	const [descripition, setDescripition] = useState("");
-	const [category, setCategory] = useState("");
-
-	const { addtoExpenseList } = useExpense();
+	// const [amount, setAmount] = useState("");
+	// const [descripition, setDescripition] = useState("");
+	// const [category, setCategory] = useState("");
+	const { setExpense, addtoExpenseList, editExpense, expenseUpdateHandler } =
+		useExpense();
+	const {
+		amount,
+		setAmount,
+		descripition,
+		setDescripition,
+		category,
+		setCategory,
+	} = setExpense;
 	const { setExpenseFormDisplay } = useDisplay();
 
 	const handleExpense = (event) => {
@@ -29,15 +37,23 @@ const ExpenseForm = () => {
 			category: category,
 		};
 		// console.log(expense);
-		addtoExpenseList(expense);
+		if (!editExpense) {
+			addtoExpenseList(expense);
+		} else {
+			// console.log(editExpense);
+			expenseUpdateHandler(expense, editExpense.id);
+		}
+	};
+
+	const handleCloseForm = () => {
+		setExpenseFormDisplay(false);
+		setAmount("");
+		setDescripition("");
+		setCategory("");
 	};
 
 	return (
-		<FormOverlayModal
-			onClose={() => {
-				setExpenseFormDisplay(false);
-			}}
-		>
+		<FormOverlayModal onClose={handleCloseForm}>
 			<div className="relative rounded-md bg-cyan-400 p-2">
 				<form onSubmit={handleExpense}>
 					<div className="mx-auto mt-8 w-64">
@@ -111,9 +127,7 @@ const ExpenseForm = () => {
 				</form>
 				<button
 					type="button"
-					onClick={() => {
-						setExpenseFormDisplay(false);
-					}}
+					onClick={handleCloseForm}
 					className="absolute right-1 top-1 bg-red-400 px-2 font-bold text-white"
 				>
 					X

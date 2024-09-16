@@ -1,19 +1,50 @@
 import React from "react";
 import useExpense from "../../store/expense-context";
+import useDisplay from "../../store/display-ctx";
 
 const ExpenseList = () => {
-	const { expenseList } = useExpense();
+	const { expenseList, expenseDeleteHandler, handleEditExpenseData } =
+		useExpense();
+
+	const { setExpenseFormDisplay } = useDisplay();
+
+	const handleDelete = (id) => {
+		expenseDeleteHandler(id);
+	};
+
+	const handleEdit = (item) => {
+		setExpenseFormDisplay(true);
+		handleEditExpenseData(item);
+	};
+
 	return (
 		<div className="bg-gray-400 px-5 py-8">
 			<h1 className="pb-8 text-2xl font-semibold">ExpenseList</h1>
 			<div>
-				<ul className="w-1/2 list-none bg-blue-300 max-sm:w-full">
-					{expenseList.map((item, i) => {
+				<ul className="flex w-1/2 list-none flex-col gap-2 bg-blue-300 px-1 py-4 max-sm:w-full">
+					{expenseList.map((item) => {
 						return (
-							<li key={i} className="flex justify-evenly gap-2">
-								<span>${item.amount}</span>
-								<span>{item.category}</span>
-								<span>{item.descripition}</span>
+							<li
+								key={item.id}
+								className="flex justify-evenly gap-2"
+							>
+								<span>${item.amount}-</span>
+								<span>{item.category}-</span>
+								<span>{item.descripition}-</span>
+								<button
+									onClick={() => handleDelete(item.id)}
+									type="button"
+									className="rounded-md border border-gray-600 bg-slate-500 px-1 py-0.5 hover:bg-slate-400"
+								>
+									Delete
+								</button>
+								<button
+									onClick={() => handleEdit(item)}
+									type="button"
+									className="rounded-md border border-gray-600 bg-slate-500 px-1 py-0.5 hover:bg-slate-400"
+								>
+									Edit
+								</button>
 							</li>
 						);
 					})}
