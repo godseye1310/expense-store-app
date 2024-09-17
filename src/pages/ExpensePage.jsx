@@ -6,6 +6,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { expenseActions } from "../store/expense-reducer";
 import { themeActions } from "../store/theme-reducer";
+import ExpenseDownloadBtn from "../components/ExpenseTrack/ExpenseDownloadBtn";
 
 const RTDB_URL = `https://expense-store-app-default-rtdb.asia-southeast1.firebasedatabase.app/userExpense`;
 
@@ -49,9 +50,9 @@ const ExpensePage = () => {
 	const handlePremium = () => {
 		dispatch(themeActions.activePremium());
 	};
+	const isPremium = useSelector((state) => state.theme.isPremium);
 
 	const expenseList = useSelector((state) => state.expense.expenseList);
-
 	const totalExpense = expenseList.reduce((acc, curr) => {
 		return acc + +curr.amount;
 	}, 0);
@@ -83,6 +84,9 @@ const ExpensePage = () => {
 					>
 						Activate Premium
 					</button>
+					{isPremium && (
+						<ExpenseDownloadBtn expenseList={expenseList} />
+					)}
 				</div>
 			)}
 
