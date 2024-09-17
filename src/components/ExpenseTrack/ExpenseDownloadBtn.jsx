@@ -4,7 +4,9 @@ import { BiDownload } from "react-icons/bi";
 const ExpenseDownloadBtn = ({ expenseList }) => {
 	const downloadExpenseCSV = () => {
 		console.log("downloaded");
-		console.log(expenseList);
+
+		// const expenseHeader = expenseList.map((list) => Object.keys(list))[0];
+		// console.log(expenseHeader);
 
 		const headers = ["ID", "Amount", "Descripition", "Category"];
 		const csvRows = [
@@ -19,6 +21,7 @@ const ExpenseDownloadBtn = ({ expenseList }) => {
 					].join(","), // Data rows
 			),
 		];
+		// console.log(csvRows);
 
 		// Step 2: Create a Blob from CSV rows
 		const csvContent = csvRows.join("\n");

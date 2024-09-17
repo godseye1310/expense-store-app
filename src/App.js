@@ -13,7 +13,7 @@ import Profile from "./pages/Profile";
 // import useAuth from "./store/auth-context";
 import ForgorPassword from "./pages/ForgorPassword";
 import ExpensePage from "./pages/ExpensePage";
-import { ExpenseProvider } from "./store/expense-context";
+// import { ExpenseProvider } from "./store/expense-context";
 import { DisplayProvider } from "./store/display-ctx";
 import About from "./pages/About";
 import Products from "./pages/Products";
@@ -63,11 +63,9 @@ function App() {
 		},
 	]);
 	return (
-		<ExpenseProvider>
-			<DisplayProvider>
-				<RouterProvider router={router} />
-			</DisplayProvider>
-		</ExpenseProvider>
+		<DisplayProvider>
+			<RouterProvider router={router} />
+		</DisplayProvider>
 	);
 }
 
