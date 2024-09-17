@@ -2,8 +2,10 @@ import axios from "axios";
 import React, { useState } from "react";
 import Input from "../UI/Input";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../store/auth-context";
+// import useAuth from "../../store/auth-context";
 import useDisplay from "../../store/display-ctx";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/auth-reducer";
 
 const API_KEY = "AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0";
 const SIGNUP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
@@ -17,7 +19,8 @@ const AuthForm = () => {
 	const [isErrorVisible, setIsErrorVisible] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const { handleLogIn } = useAuth();
+	// const { handleLogIn } = useAuth();
+	const dispatch = useDispatch();
 	const { handlePopupDisplay } = useDisplay();
 
 	const naviateTo = useNavigate();
@@ -27,10 +30,8 @@ const AuthForm = () => {
 		setEmail("");
 		setPassword("");
 	};
-
 	const authFormHandler = async (event) => {
 		event.preventDefault();
-
 		setIsLoading(true);
 		const userAuthData = {
 			email: email,
@@ -41,12 +42,17 @@ const AuthForm = () => {
 		if (!isSignUp) {
 			try {
 				const response = await axios.post(SIGNIN_URL, userAuthData);
-				// console.log(response.data);
-				setEmail("");
-				setPassword("");
-				handleLogIn(response.data.idToken);
+				console.log(response.data);
+
+				// handleLogIn(response.data.idToken);
+				const token = response.data.idToken;
+				const userID = response.data.localID;
+				localStorage.setItem("token", token);
+				dispatch(authActions.handleLogIn({ token, userID }));
 				handlePopupDisplay();
 				naviateTo("/home", { replace: true });
+				setEmail("");
+				setPassword("");
 			} catch (error) {
 				console.log(error.response.data);
 				if (
@@ -72,6 +78,7 @@ const AuthForm = () => {
 					setEmail("");
 					setPassword("");
 					console.log(response.data);
+					dispatch(authActions.handleLogIn(response.data.idToken));
 				} else {
 					setErrorMessage("* Password doesnt Match");
 					setIsErrorVisible(true);

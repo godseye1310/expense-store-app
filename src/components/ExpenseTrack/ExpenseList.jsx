@@ -1,20 +1,25 @@
 import React from "react";
-import useExpense from "../../store/expense-context";
+// import useExpense from "../../store/expense-context";
 import useDisplay from "../../store/display-ctx";
+import { useDispatch, useSelector } from "react-redux";
+import { expenseActions } from "../../store/expense-reducer";
 
 const ExpenseList = () => {
-	const { expenseList, expenseDeleteHandler, handleEditExpenseData } =
-		useExpense();
-
+	// const { expenseList, expenseDeleteHandler, handleEditExpenseData } = useExpense();
 	const { setExpenseFormDisplay } = useDisplay();
 
+	const expenseList = useSelector((state) => state.expense.expenseList);
+
+	const dispatch = useDispatch();
+
 	const handleDelete = (id) => {
-		expenseDeleteHandler(id);
+		// expenseDeleteHandler(id);
+		dispatch(expenseActions.expenseDeleteHandler(id));
 	};
 
 	const handleEdit = (item) => {
 		setExpenseFormDisplay(true);
-		handleEditExpenseData(item);
+		// handleEditExpenseData(item);
 	};
 
 	return (

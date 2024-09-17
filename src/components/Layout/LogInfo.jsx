@@ -1,10 +1,12 @@
 import React from "react";
 import PopupModal from "../UI/PopupModal";
 import useDisplay from "../../store/display-ctx";
-import useAuth from "../../store/auth-context";
+// import useAuth from "../../store/auth-context";
+import { useSelector } from "react-redux";
 
 const LogInfo = () => {
-	const { isLoggedIn } = useAuth();
+	// const { isLoggedIn } = useAuth();
+	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 	const { popupVisible } = useDisplay();
 
 	return (

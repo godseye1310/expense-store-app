@@ -1,14 +1,17 @@
 import axios from "axios";
 import React from "react";
-import useAuth from "../../store/auth-context";
+// import useAuth from "../../store/auth-context";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const API_KEY = `AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0`;
 const VERIFY_URL = `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${API_KEY}`;
 
 const VerifyEmailBtn = () => {
-	const { token } = useAuth();
+	// const { token } = useAuth();
 	const navigateTo = useNavigate();
+
+	const token = useSelector((state) => state.auth.token);
 
 	const mailverifyHandler = async () => {
 		try {

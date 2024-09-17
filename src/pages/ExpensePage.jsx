@@ -1,10 +1,50 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import ExpenseForm from "../components/ExpenseTrack/ExpenseForm";
 import ExpenseList from "../components/ExpenseTrack/ExpenseList";
 import useDisplay from "../store/display-ctx";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { expenseActions } from "../store/expense-reducer";
+
+const RTDB_URL = `https://expense-store-app-default-rtdb.asia-southeast1.firebasedatabase.app/userExpense`;
 
 const ExpensePage = () => {
 	const { expenseFormDisplay, setExpenseFormDisplay } = useDisplay();
+
+	const dispatch = useDispatch();
+
+	const fetchExpenseList = useCallback(async () => {
+		try {
+			const response = await axios.get(`${RTDB_URL}.json`);
+			console.log(response.data);
+			console.log(
+				response.status,
+				response.statusText,
+				"Expense Fetch Success",
+			);
+			const fetchList = Object.keys(response.data).map((key) => {
+				return { ...response.data[key], id: key };
+			});
+			// setExpenseList(fetchList);
+			console.log(fetchList);
+
+			dispatch(expenseActions.fetchExpenseList(fetchList));
+		} catch (error) {
+			console.log(error);
+		}
+	}, [dispatch]);
+	useEffect(() => {
+		fetchExpenseList();
+	}, [fetchExpenseList]);
+
+	const expenseList = useSelector((state) => state.expense.expenseList);
+
+	const totalExpense = expenseList.reduce((acc, curr) => {
+		return acc + +curr.amount;
+	}, 0);
+
+	console.log(totalExpense);
+
 	return (
 		<div className="relative h-full w-full">
 			{expenseFormDisplay && <ExpenseForm />}
@@ -18,6 +58,12 @@ const ExpensePage = () => {
 			>
 				+
 			</button>
+
+			{totalExpense > 10000 && (
+				<button className="rounded-md bg-amber-700 px-2 py-1">
+					Activate Premium
+				</button>
+			)}
 		</div>
 	);
 };

@@ -1,16 +1,22 @@
 import React from "react";
 import { MdLogin, MdLogout } from "react-icons/md";
 import { NavLink, useNavigate } from "react-router-dom";
-import useAuth from "../../store/auth-context";
+// import useAuth from "../../store/auth-context";
 import useDisplay from "../../store/display-ctx";
 import { SiExpensify } from "react-icons/si";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../store/auth-reducer";
 
 const Header = () => {
-	const { isLoggedIn, handleLogOut } = useAuth();
+	// const { isLoggedIn, handleLogOut } = useAuth();
+	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+	const dispatch = useDispatch();
 	const { handlePopupDisplay } = useDisplay();
 	const navigateTo = useNavigate();
 	const logOut = () => {
-		handleLogOut();
+		// handleLogOut();
+		localStorage.removeItem("token");
+		dispatch(authActions.handleLogout());
 		handlePopupDisplay();
 		navigateTo("/", { replace: true });
 	};

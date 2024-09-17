@@ -1,8 +1,12 @@
-import React from "react";
-import useExpense from "../../store/expense-context";
+import React, { useCallback, useState } from "react";
+// import useExpense from "../../store/expense-context";
 import FormOverlayModal from "../UI/FormOverlayModal";
 import useDisplay from "../../store/display-ctx";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { expenseActions } from "../../store/expense-reducer";
 
+const RTDB_URL = `https://expense-store-app-default-rtdb.asia-southeast1.firebasedatabase.app/userExpense`;
 const options = [
 	"Grocery",
 	"Petrol",
@@ -13,19 +17,20 @@ const options = [
 ];
 
 const ExpenseForm = () => {
-	// const [amount, setAmount] = useState("");
-	// const [descripition, setDescripition] = useState("");
-	// const [category, setCategory] = useState("");
-	const { setExpense, addtoExpenseList, editExpense, expenseUpdateHandler } =
-		useExpense();
-	const {
-		amount,
-		setAmount,
-		descripition,
-		setDescripition,
-		category,
-		setCategory,
-	} = setExpense;
+	const [amount, setAmount] = useState("");
+	const [descripition, setDescripition] = useState("");
+	const [category, setCategory] = useState("");
+	// const { setExpense, addtoExpenseList, editExpense, expenseUpdateHandler } =useExpense();
+	// const {
+	// 	amount,
+	// 	setAmount,
+	// 	descripition,
+	// 	setDescripition,
+	// 	category,
+	// 	setCategory,
+	// } = setExpense;
+	const dispatch = useDispatch();
+
 	const { setExpenseFormDisplay } = useDisplay();
 
 	const handleExpense = (event) => {
@@ -37,13 +42,40 @@ const ExpenseForm = () => {
 			category: category,
 		};
 		// console.log(expense);
-		if (!editExpense) {
-			addtoExpenseList(expense);
-		} else {
-			// console.log(editExpense);
-			expenseUpdateHandler(expense, editExpense.id);
-		}
+		// if (!editExpense) {
+		addtoExpenseList(expense);
+		// } else {
+		// 	// console.log(editExpense);
+		// 	expenseUpdateHandler(expense, editExpense.id);
+		// }
 	};
+
+	const addtoExpenseList = useCallback(
+		async (item) => {
+			try {
+				const response = await axios.post(`${RTDB_URL}.json`, item);
+				// console.log(response.data);
+				console.log(
+					response.status,
+					response.statusText,
+					"Expense ADD Success",
+				);
+				// setExpenseList((prev) => [
+				// 	...prev,
+				// 	{ ...item, id: response.data.name },
+				// ]);
+				dispatch(
+					expenseActions.addtoExpenseList({
+						...item,
+						id: response.data.name,
+					}),
+				);
+			} catch (error) {
+				console.log(error.response.data);
+			}
+		},
+		[dispatch],
+	);
 
 	const handleCloseForm = () => {
 		setExpenseFormDisplay(false);

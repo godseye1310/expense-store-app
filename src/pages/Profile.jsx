@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import useAuth from "../store/auth-context";
+// import useAuth from "../store/auth-context";
 import axios from "axios";
 import ProfileForm from "../components/profile/ProfileForm";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const API_KEY = `AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0`;
 
@@ -17,7 +18,7 @@ const Profile = () => {
 
 	const navigateTo = useNavigate();
 
-	const { token } = useAuth();
+	const token = useSelector((state) => state.auth.token);
 
 	let pfc = 0;
 	if (displayName && photoUrl) {
