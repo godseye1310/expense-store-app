@@ -27,15 +27,15 @@ const Header = () => {
 					</span>
 				</h1>
 				<nav className="px-5">
-					<ul className="flex gap-8 text-gray-600 max-md:gap-2 max-xs:text-sm">
+					<ul className="flex items-baseline gap-8 text-gray-600 max-md:gap-2 max-xs:text-sm">
 						<li>
 							<NavLink
 								to="/home"
 								className={({ isActive }) =>
-									`transform font-bold transition-all duration-100 max-xs:text-sm ${
+									`transform font-semibold transition-all duration-150 max-xs:text-sm ${
 										isActive
-											? "text-xl text-blue-900 max-xs:text-base"
-											: "hover:text-blue-900"
+											? "text-2xl font-bold text-blue-900 max-xs:text-lg"
+											: "hover:text-blue-600"
 									}`
 								}
 							>
@@ -46,10 +46,10 @@ const Header = () => {
 							<NavLink
 								to="/products"
 								className={({ isActive }) =>
-									`transform font-bold transition-all duration-100 max-xs:text-sm ${
+									`transform font-semibold transition-all duration-150 max-xs:text-sm ${
 										isActive
-											? "text-xl text-blue-900 max-xs:text-base"
-											: "hover:text-blue-900"
+											? "text-2xl font-bold text-blue-900 max-xs:text-base"
+											: "hover:text-blue-600"
 									}`
 								}
 							>
@@ -60,10 +60,10 @@ const Header = () => {
 							<NavLink
 								to="/about"
 								className={({ isActive }) =>
-									`transform font-bold transition-all duration-100 max-xs:text-sm ${
+									`transform font-semibold transition-all duration-150 max-xs:text-sm ${
 										isActive
-											? "text-xl text-blue-900 max-xs:text-base"
-											: "hover:text-blue-900"
+											? "text-2xl font-bold text-blue-900 max-xs:text-lg"
+											: "hover:text-blue-600"
 									}`
 								}
 							>
@@ -92,14 +92,16 @@ const Header = () => {
 					)}
 				</div>
 			</section>
-			<section className="flex items-center bg-blue-950 px-1 py-2 text-sm text-white">
+			<section
+				className={`flex items-center bg-blue-950 px-1 py-2 text-sm text-white`}
+			>
 				<nav>
 					<ul className="flex gap-x-4 pl-1">
 						{isLoggedIn && (
 							<NavLink
 								to="/profile"
 								className={({ isActive }) =>
-									`font-bold decoration-4 underline-offset-8 hover:underline ${isActive ? "text-amber-600 underline decoration-amber-600" : "text-gray-300 decoration-gray-300 hover:text-amber-500"}`
+									`font-bold decoration-4 underline-offset-8 hover:underline ${isActive ? "text-amber-600 underline decoration-amber-600" : "text-gray-300 decoration-blue-500 hover:text-amber-500"}`
 								}
 							>
 								<li>Profile</li>
@@ -109,7 +111,7 @@ const Header = () => {
 							<NavLink
 								to="/user-expense"
 								className={({ isActive }) =>
-									`font-bold decoration-4 underline-offset-8 hover:underline ${isActive ? "text-amber-600 underline decoration-amber-600" : "text-gray-300 decoration-gray-300 hover:text-amber-500"}`
+									`font-bold decoration-4 underline-offset-8 hover:underline ${isActive ? "text-amber-600 underline decoration-amber-600" : "text-gray-300 decoration-blue-500 hover:text-amber-500"}`
 								}
 							>
 								<li>Daily Expense</li>

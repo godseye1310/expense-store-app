@@ -16,6 +16,7 @@ import ExpensePage from "./pages/ExpensePage";
 import { ExpenseProvider } from "./store/expense-context";
 import { DisplayProvider } from "./store/display-ctx";
 import About from "./pages/About";
+import Products from "./pages/Products";
 
 function App() {
 	const { isLoggedIn } = useAuth();
@@ -31,6 +32,7 @@ function App() {
 				},
 				{ path: "/home", element: <Home /> },
 				{ path: "/about", element: <About /> },
+				{ path: "/products", element: <Products /> },
 				{
 					path: "/profile",
 					element: isLoggedIn ? <Profile /> : <Navigate to="/" />,
