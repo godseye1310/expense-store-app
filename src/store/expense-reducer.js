@@ -16,6 +16,15 @@ const expenseSlice = createSlice({
 				(item) => item.id !== action.payload,
 			);
 		},
+		expenseUpdateHandler(state, action) {
+			console.log(action.payload);
+
+			state.expenseList = state.expenseList.map((item) => {
+				return item.id === action.payload.id
+					? { ...item, ...action.payload }
+					: item;
+			});
+		},
 	},
 });
 

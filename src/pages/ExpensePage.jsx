@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ExpenseForm from "../components/ExpenseTrack/ExpenseForm";
 import ExpenseList from "../components/ExpenseTrack/ExpenseList";
 import useDisplay from "../store/display-ctx";
@@ -16,7 +16,7 @@ const ExpensePage = () => {
 	const fetchExpenseList = useCallback(async () => {
 		try {
 			const response = await axios.get(`${RTDB_URL}.json`);
-			console.log(response.data);
+			// console.log(response.data);
 			console.log(
 				response.status,
 				response.statusText,
@@ -26,8 +26,7 @@ const ExpensePage = () => {
 				return { ...response.data[key], id: key };
 			});
 			// setExpenseList(fetchList);
-			console.log(fetchList);
-
+			// console.log(fetchList);
 			dispatch(expenseActions.fetchExpenseList(fetchList));
 		} catch (error) {
 			console.log(error);
@@ -37,18 +36,27 @@ const ExpensePage = () => {
 		fetchExpenseList();
 	}, [fetchExpenseList]);
 
+	const [editExpense, setEditExpense] = useState();
+	const handleEditExpenseData = (item) => {
+		// console.log(item);
+		setEditExpense(item);
+		// setAmount(item.amount);
+		// setDescripition(item.descripition);
+		// setCategory(item.category);
+	};
+
 	const expenseList = useSelector((state) => state.expense.expenseList);
 
 	const totalExpense = expenseList.reduce((acc, curr) => {
 		return acc + +curr.amount;
 	}, 0);
 
-	console.log(totalExpense);
+	// console.log(totalExpense);
 
 	return (
-		<div className="relative h-full w-full">
-			{expenseFormDisplay && <ExpenseForm />}
-			<ExpenseList />
+		<div className="relative h-full w-full bg-gray-300">
+			{expenseFormDisplay && <ExpenseForm editExpense={editExpense} />}
+			<ExpenseList handleEditExpenseData={handleEditExpenseData} />
 			<button
 				type="button"
 				onClick={() => {
@@ -60,7 +68,7 @@ const ExpensePage = () => {
 			</button>
 
 			{totalExpense > 10000 && (
-				<button className="rounded-md bg-amber-700 px-2 py-1">
+				<button className="absolute right-5 top-3 rounded-md bg-amber-700 px-2 py-1">
 					Activate Premium
 				</button>
 			)}

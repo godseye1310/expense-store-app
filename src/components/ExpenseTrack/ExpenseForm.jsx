@@ -14,6 +14,7 @@ const options = [
 	"Electricity",
 	"Movies",
 	"Shopping",
+	"vacation",
 ];
 
 const ExpenseForm = () => {
@@ -42,12 +43,14 @@ const ExpenseForm = () => {
 			category: category,
 		};
 		// console.log(expense);
-		// if (!editExpense) {
-		addtoExpenseList(expense);
-		// } else {
-		// 	// console.log(editExpense);
-		// 	expenseUpdateHandler(expense, editExpense.id);
-		// }
+		// if(!editExpense)
+		if (true) {
+			addtoExpenseList(expense);
+		} else {
+			// 	// console.log(editExpense);
+			const id = "editing item id";
+			expenseUpdateHandler(expense, id);
+		}
 	};
 
 	const addtoExpenseList = useCallback(
@@ -70,6 +73,41 @@ const ExpenseForm = () => {
 						id: response.data.name,
 					}),
 				);
+			} catch (error) {
+				console.log(error.response.data);
+			}
+		},
+		[dispatch],
+	);
+
+	const expenseUpdateHandler = useCallback(
+		async (updateItem, id) => {
+			// console.log(updateItem, id);
+			try {
+				const response = await axios.put(
+					`${RTDB_URL}/${id}.json`,
+					updateItem,
+				);
+				console.log(response);
+				console.log(
+					response.status,
+					response.statusText,
+					"Expense Update Success",
+				);
+				// setExpenseList((prev) =>
+				// 	prev.map((item) => {
+				// 		return item.id === id ? { ...item, ...updateItem } : item;
+				// 	}),
+				// );
+				// console.log({ ...updateItem, id: id });
+
+				dispatch(
+					expenseActions.expenseUpdateHandler({
+						...updateItem,
+						id: id,
+					}),
+				);
+				console.log("Expense successfuly updated");
 			} catch (error) {
 				console.log(error.response.data);
 			}

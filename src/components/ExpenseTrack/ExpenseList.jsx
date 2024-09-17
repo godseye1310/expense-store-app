@@ -4,7 +4,7 @@ import useDisplay from "../../store/display-ctx";
 import { useDispatch, useSelector } from "react-redux";
 import { expenseActions } from "../../store/expense-reducer";
 
-const ExpenseList = () => {
+const ExpenseList = ({ handleEditExpenseData }) => {
 	// const { expenseList, expenseDeleteHandler, handleEditExpenseData } = useExpense();
 	const { setExpenseFormDisplay } = useDisplay();
 
@@ -19,11 +19,11 @@ const ExpenseList = () => {
 
 	const handleEdit = (item) => {
 		setExpenseFormDisplay(true);
-		// handleEditExpenseData(item);
+		handleEditExpenseData(item);
 	};
 
 	return (
-		<div className="bg-gray-400 px-5 py-8">
+		<div className="relative px-5 py-8">
 			<h1 className="pb-8 text-2xl font-semibold">ExpenseList</h1>
 			<div>
 				<ul className="flex w-1/2 list-none flex-col gap-2 bg-blue-300 px-1 py-4 max-sm:w-full">
