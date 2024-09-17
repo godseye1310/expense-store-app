@@ -5,6 +5,7 @@ import useDisplay from "../store/display-ctx";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { expenseActions } from "../store/expense-reducer";
+import { themeActions } from "../store/theme-reducer";
 
 const RTDB_URL = `https://expense-store-app-default-rtdb.asia-southeast1.firebasedatabase.app/userExpense`;
 
@@ -45,6 +46,10 @@ const ExpensePage = () => {
 		// setCategory(item.category);
 	};
 
+	const handlePremium = () => {
+		dispatch(themeActions.activePremium());
+	};
+
 	const expenseList = useSelector((state) => state.expense.expenseList);
 
 	const totalExpense = expenseList.reduce((acc, curr) => {
@@ -52,9 +57,12 @@ const ExpensePage = () => {
 	}, 0);
 
 	// console.log(totalExpense);
+	const darkMode = useSelector((state) => state.theme.darkMode);
 
 	return (
-		<div className="relative h-full w-full bg-gray-300">
+		<div
+			className={`relative h-full w-full ${darkMode ? "bg-gray-900 text-white" : "bg-gray-300"}`}
+		>
 			{expenseFormDisplay && <ExpenseForm editExpense={editExpense} />}
 			<ExpenseList handleEditExpenseData={handleEditExpenseData} />
 			<button
@@ -68,10 +76,17 @@ const ExpensePage = () => {
 			</button>
 
 			{totalExpense > 10000 && (
-				<button className="absolute right-5 top-3 rounded-md bg-amber-700 px-2 py-1">
-					Activate Premium
-				</button>
+				<div>
+					<button
+						onClick={handlePremium}
+						className="absolute right-5 top-3 rounded-md bg-amber-700 px-2 py-1"
+					>
+						Activate Premium
+					</button>
+				</div>
 			)}
+
+			<div className="px-5 py-8"></div>
 		</div>
 	);
 };

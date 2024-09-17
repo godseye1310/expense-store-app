@@ -6,13 +6,17 @@ import useDisplay from "../../store/display-ctx";
 import { SiExpensify } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth-reducer";
+import { themeActions } from "../../store/theme-reducer";
 
 const Header = () => {
 	// const { isLoggedIn, handleLogOut } = useAuth();
+	const { handlePopupDisplay } = useDisplay();
 	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 	const dispatch = useDispatch();
-	const { handlePopupDisplay } = useDisplay();
 	const navigateTo = useNavigate();
+
+	const isPremium = useSelector((state) => state.theme.isPremium);
+
 	const logOut = () => {
 		// handleLogOut();
 		localStorage.removeItem("token");
@@ -20,8 +24,17 @@ const Header = () => {
 		handlePopupDisplay();
 		navigateTo("/", { replace: true });
 	};
+
+	const handleTheme = () => {
+		dispatch(themeActions.toggleDarkMode());
+	};
+
+	const darkMode = useSelector((state) => state.theme.darkMode);
+
 	return (
-		<header className="flex flex-col px-0 pb-0 pt-2">
+		<header
+			className={`flex flex-col px-0 pb-0 pt-2 ${darkMode ? "bg-slate-700" : ""}`}
+		>
 			<section className="flex items-center p-0">
 				<h1 className="flex flex-col pl-1 text-3xl font-extrabold text-blue-950 max-xs:text-xl">
 					<span>Expense</span>
@@ -33,14 +46,16 @@ const Header = () => {
 					</span>
 				</h1>
 				<nav className="px-5">
-					<ul className="flex items-baseline gap-8 text-gray-600 max-md:gap-2 max-xs:text-sm">
+					<ul
+						className={`flex items-baseline gap-8 max-md:gap-2 max-xs:text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}
+					>
 						<li>
 							<NavLink
 								to="/home"
 								className={({ isActive }) =>
 									`transform font-semibold transition-all duration-150 max-xs:text-sm ${
 										isActive
-											? "text-2xl font-bold text-blue-900 max-xs:text-lg"
+											? "text-2xl font-bold text-blue-600 max-xs:text-lg"
 											: "hover:text-blue-600"
 									}`
 								}
@@ -54,7 +69,7 @@ const Header = () => {
 								className={({ isActive }) =>
 									`transform font-semibold transition-all duration-150 max-xs:text-sm ${
 										isActive
-											? "text-2xl font-bold text-blue-900 max-xs:text-base"
+											? "text-2xl font-bold text-blue-600 max-xs:text-base"
 											: "hover:text-blue-600"
 									}`
 								}
@@ -68,7 +83,7 @@ const Header = () => {
 								className={({ isActive }) =>
 									`transform font-semibold transition-all duration-150 max-xs:text-sm ${
 										isActive
-											? "text-2xl font-bold text-blue-900 max-xs:text-lg"
+											? "text-2xl font-bold text-blue-600 max-xs:text-lg"
 											: "hover:text-blue-600"
 									}`
 								}
@@ -101,9 +116,9 @@ const Header = () => {
 			<section
 				className={`flex items-center bg-blue-950 px-1 py-2 text-sm text-white`}
 			>
-				<nav>
-					<ul className="flex gap-x-4 pl-1">
-						{isLoggedIn && (
+				{isLoggedIn && (
+					<nav className="flex w-full flex-wrap justify-between">
+						<ul className="flex gap-x-4 pl-1">
 							<NavLink
 								to="/profile"
 								className={({ isActive }) =>
@@ -112,8 +127,7 @@ const Header = () => {
 							>
 								<li>Profile</li>
 							</NavLink>
-						)}
-						{isLoggedIn && (
+
 							<NavLink
 								to="/user-expense"
 								className={({ isActive }) =>
@@ -122,9 +136,19 @@ const Header = () => {
 							>
 								<li>Daily Expense</li>
 							</NavLink>
+						</ul>
+
+						{isPremium && (
+							<button
+								onClick={handleTheme}
+								type="button"
+								className="ml-auto bg-amber-600 px-2 py-0 text-sm"
+							>
+								theme
+							</button>
 						)}
-					</ul>
-				</nav>
+					</nav>
+				)}
 			</section>
 		</header>
 	);

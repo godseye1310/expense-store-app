@@ -22,11 +22,15 @@ const ExpenseList = ({ handleEditExpenseData }) => {
 		handleEditExpenseData(item);
 	};
 
+	const darkMode = useSelector((state) => state.theme.darkMode);
+
 	return (
 		<div className="relative px-5 py-8">
-			<h1 className="pb-8 text-2xl font-semibold">ExpenseList</h1>
+			<h1 className={`pb-8 text-2xl font-semibold`}>ExpenseList</h1>
 			<div>
-				<ul className="flex w-1/2 list-none flex-col gap-2 bg-blue-300 px-1 py-4 max-sm:w-full">
+				<ul
+					className={`flex w-1/2 list-none flex-col gap-2 bg-blue-300 px-1 py-4 max-sm:w-full ${darkMode ? "bg-neutral-800" : ""}`}
+				>
 					{expenseList.map((item) => {
 						return (
 							<li

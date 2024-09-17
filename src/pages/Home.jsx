@@ -1,9 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+	const darkMode = useSelector((state) => state.theme.darkMode);
 	return (
-		<div className="m-3 pt-2">
+		<div
+			className={`p-3 pt-2 ${darkMode && "h-full w-full bg-gray-900 text-white"}`}
+		>
 			<div className="flex justify-between border-b-2 border-b-gray-400 px-1 pb-8">
 				<h1 className="text-xl font-semibold">
 					Welcome to Expense Tracker!!!

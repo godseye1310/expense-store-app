@@ -70,8 +70,10 @@ const Profile = () => {
 		}
 	}, [token, navigateTo]);
 
+	const darkMode = useSelector((state) => state.theme.darkMode);
+
 	return (
-		<div className="h-full w-full">
+		<div className={`h-full w-full ${darkMode && "bg-gray-900"}`}>
 			<div className="flex justify-between border-b-2 border-b-gray-400 bg-neutral-400 px-0 pb-5 pt-2 max-sm:flex-col">
 				<h3 className="pl-1 text-lg font-medium">
 					Winners never quit, Quitters never win

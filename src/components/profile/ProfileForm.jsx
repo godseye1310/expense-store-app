@@ -3,6 +3,7 @@ import { VscGlobe } from "react-icons/vsc";
 import { FaGithub, FaUserCircle } from "react-icons/fa";
 import VerifyEmailBtn from "./VerifyEmailBtn";
 import { MdVerified } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 const ProfileForm = ({
 	handlePrfofileSubmit,
@@ -13,11 +14,12 @@ const ProfileForm = ({
 	setPhotoUrl,
 	isVerified,
 }) => {
+	const darkMode = useSelector((state) => state.theme.darkMode);
 	//User Profile
 	return (
 		<form
 			onSubmit={handlePrfofileSubmit}
-			className="relative w-3/4 border-b-2 border-b-gray-600 bg-white px-2 py-8 shadow-lg shadow-slate-500 max-md:w-full"
+			className={`relative w-3/4 border-b-2 border-b-gray-600 bg-white px-2 py-8 shadow-lg shadow-slate-500 max-md:w-full ${darkMode && "bg-opacity-15 text-white"}`}
 		>
 			<div className="flex items-start gap-1 pb-10 pr-4 pt-5 max-xs:justify-center">
 				<h1 className="text-3xl leading-normal underline">
@@ -53,7 +55,7 @@ const ProfileForm = ({
 						ref={inputRef}
 						onChange={(e) => setDisplayName(e.target.value)}
 						required
-						className="w-2/3 rounded border-2 border-gray-300 bg-white px-3 py-1 outline-none focus:border-gray-500 max-xs:w-full"
+						className={`w-2/3 rounded border-2 border-gray-300 bg-white px-3 py-1 outline-none focus:border-gray-500 max-xs:w-full ${darkMode && "text-gray-950"}`}
 					/>
 				</div>
 				<div className="flex w-3/5 items-center max-md:w-full max-md:justify-between max-xs:flex-col">
@@ -73,7 +75,7 @@ const ProfileForm = ({
 						value={photoUrl}
 						onChange={(e) => setPhotoUrl(e.target.value)}
 						required
-						className="w-2/3 rounded border-2 border-gray-300 bg-white px-3 py-1 outline-none focus:border-gray-500 max-xs:w-full"
+						className={`w-2/3 rounded border-2 border-gray-300 bg-white px-3 py-1 outline-none focus:border-gray-500 max-xs:w-full ${darkMode && "text-gray-950"}`}
 					/>
 				</div>
 			</section>
