@@ -7,7 +7,7 @@ test("renders Home as a text", () => {
 	//Act
 	//..nothing
 	//Assert
-	const navHomeElement = screen.getByTestId("Home", {
+	const navHomeElement = screen.getByText("Home", {
 		exact: false,
 	});
 	expect(navHomeElement).toBeInTheDocument();
