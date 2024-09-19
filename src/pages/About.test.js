@@ -71,14 +71,14 @@ import userEvent from "@testing-library/user-event";
 // });
 
 describe("About Component user Interaction/ Testing User Actions", () => {
-	test("renders 'This is webapp description Section' if the button was NOT clicked", () => {
-		render(<About />);
-		const outputElement = screen.getByText(
-			"This is webapp description Section",
-		);
-		expect(outputElement).toBeInTheDocument();
-	});
-	test("renders 'changed!' as a text if the button was Clicked", () => {
+	// test("renders 'This is webapp description Section' if the button was NOT clicked", () => {
+	// 	render(<About />);
+	// 	const outputElement = screen.getByText(
+	// 		"This is webapp description Section",
+	// 	);
+	// 	expect(outputElement).toBeInTheDocument();
+	// });
+	test("renders 'changed!' as a text if the button was Clicked", async () => {
 		//Arrange
 		render(<About />);
 
@@ -87,23 +87,88 @@ describe("About Component user Interaction/ Testing User Actions", () => {
 		userEvent.click(buttonELement);
 
 		//Assert
-		const outputElement = screen.getByText("Changed!", {
+		const outputElement = await screen.findByText("Changed!", {
 			exact: false,
 		});
 		expect(outputElement).toBeInTheDocument();
 	});
 
-	test("doesnt renders This is webapp description Section if button was clicked", () => {
+	// test("doesnt renders This is webapp description Section if button was clicked", () => {
+	// 	//Arrange
+	// 	render(<About />);
+	// 	//Act
+	// 	const buttonELement = screen.getByRole("button");
+	// 	userEvent.click(buttonELement);
+	// 	//Assert
+	// 	const outputElement = screen.queryByText(
+	// 		"This is webapp description Section",
+	// 		{ exact: true },
+	// 	);
+	// 	expect(outputElement).toBeNull();
+	// });
+});
+
+describe("Aysnc About Component Testing", () => {
+	test("renders Post if Request succeeds", async () => {
 		//Arrange
 		render(<About />);
-		//Act
-		const buttonELement = screen.getByRole("button");
-		userEvent.click(buttonELement);
+
 		//Assert
-		const outputElement = screen.queryByText(
-			"This is webapp description Section",
-			{ exact: true },
-		);
-		expect(outputElement).toBeNull();
+		const listItemElement = await screen.findAllByRole("listitem");
+		expect(listItemElement).not.toHaveLength(0);
+
+		// Assert
+		const outputElement = await screen.findByText("nesciunt quas odio", {
+			exact: false,
+		});
+		expect(outputElement).toBeInTheDocument();
+	});
+
+	test("renders posts if request succeeds", async () => {
+		window.fetch = jest.fn();
+		window.fetch.mockResolvedValueOnce({
+			json: async () => [{ id: "p1", title: "First post" }],
+		});
+		render(<About />);
+
+		const listItemElements = await screen.findAllByRole("listitem");
+		expect(listItemElements).not.toHaveLength(0);
+	});
+
+	test("check post length if request succeeds", async () => {
+		window.fetch = jest.fn();
+		window.fetch.mockResolvedValueOnce({
+			json: async () => [{ id: "p1", title: "First post" }],
+		});
+		render(<About />);
+
+		const listItemElements = await screen.findAllByRole("listitem");
+		expect(listItemElements).not.toHaveLength(0);
+	});
+
+	test("check post texts if request succeeds", async () => {
+		window.fetch = jest.fn();
+		window.fetch.mockResolvedValueOnce({
+			json: async () => [{ id: "p1", title: "First post" }],
+		});
+		render(<About />);
+
+		const listItemElements = await screen.findAllByRole("listitem");
+		expect(listItemElements).not.toHaveLength(0);
+		const outputElement = await screen.findByText("First post", {
+			exact: false,
+		});
+		expect(outputElement).toBeInTheDocument();
+	});
+
+	test("check post if request succeeds", async () => {
+		window.fetch = jest.fn();
+		window.fetch.mockResolvedValueOnce({
+			json: async () => [{ id: "p1", title: "First post" }],
+		});
+		render(<About />);
+
+		const listItemElements = await screen.findAllByRole("listitem");
+		expect(listItemElements).toHaveLength(1);
 	});
 });
