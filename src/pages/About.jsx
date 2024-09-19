@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 const About = () => {
+	const [changedText, setChangedText] = useState();
+	const changeTextHandler = () => {
+		setChangedText(true);
+	};
 	return (
 		<div className="h-full w-full">
 			<h1 className="text-3xl font-bold">About Page</h1>
@@ -26,6 +30,11 @@ const About = () => {
 				reproduced in their exact original form, accompanied by English
 				versions from the 1914 translation by H. Rackham.
 			</p>
+			<p>{!changedText && "This is webapp description Section"}</p>
+			{changedText && <p>Changed!</p>}
+			<button type="button" onClick={changeTextHandler}>
+				Change Text
+			</button>
 		</div>
 	);
 };
