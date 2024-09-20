@@ -1,39 +1,50 @@
-import React, { useEffect } from "react";
-// import AuthForm from "./components/Auth/AuthForm";
-// import Header from "./components/Layout/Header";
+import React, { useEffect, useState } from "react";
 import RootLayout from "./components/Layout/RootLayout";
 import {
 	createBrowserRouter,
 	Navigate,
 	RouterProvider,
+	useNavigate,
 } from "react-router-dom";
 import Home from "./pages/Home";
 import SignInPage from "./pages/SignInPage";
 import Profile from "./pages/Profile";
-// import useAuth from "./store/auth-context";
 import ForgorPassword from "./pages/ForgorPassword";
 import ExpensePage from "./pages/ExpensePage";
-// import { ExpenseProvider } from "./store/expense-context";
 import { DisplayProvider } from "./store/display-ctx";
 import About from "./pages/About";
 import Products from "./pages/Products";
 import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "./store/auth-reducer";
+import { authActions, fetchProfile } from "./store/auth-reducer";
+
+let isInitialLoad = true;
 
 function App() {
-	// const { isLoggedIn } = useAuth();
-
 	const dispatch = useDispatch();
-	useEffect(() => {
-		// Check if token exists in localStorage
-		const storedToken = localStorage.getItem("token");
-		if (storedToken) {
-			// Dispatch the login action with the token from localStorage
-			dispatch(authActions.handleLogIn(storedToken));
-		}
-	}, [dispatch]);
 
 	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+	// const navigateTo = useNavigate();
+	const [isLoadingAuth, setIsLoadingAuth] = useState(true); // To handle the initial loading state
+
+	useEffect(() => {
+		// console.log(isLoggedIn);
+		// Check if token exists in localStorage
+		const storedToken = localStorage.getItem("token");
+		if (storedToken && isInitialLoad) {
+			// Dispatch the login action with the token from localStorage
+			dispatch(authActions.handleLogIn(storedToken));
+			// dispatch(fetchProfile(storedToken));
+		}
+		isInitialLoad = false;
+		// Once token is checked and dispatched, stop loading
+		setIsLoadingAuth(false);
+	}, [dispatch, isLoggedIn]);
+
+	// Avoid rendering routes until we check for token
+	if (isLoadingAuth) {
+		return <div>Loading...</div>; // loading spinner
+	}
+
 	const router = createBrowserRouter([
 		{
 			path: "/",

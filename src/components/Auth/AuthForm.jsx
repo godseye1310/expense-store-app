@@ -46,9 +46,8 @@ const AuthForm = () => {
 
 				// handleLogIn(response.data.idToken);
 				const token = response.data.idToken;
-				const userID = response.data.localID;
 				localStorage.setItem("token", token);
-				dispatch(authActions.handleLogIn({ token, userID }));
+				dispatch(authActions.handleLogIn(token));
 				handlePopupDisplay();
 				naviateTo("/home", { replace: true });
 				setEmail("");

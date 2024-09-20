@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
 	const darkMode = useSelector((state) => state.theme.darkMode);
+	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 	return (
 		<div
 			className={`p-3 pt-2 ${darkMode && "h-full w-full bg-gray-900 text-white"}`}
@@ -12,14 +13,16 @@ const Home = () => {
 				<h1 className="text-xl font-semibold">
 					Welcome to Expense Tracker!!!
 				</h1>
-				<div className="flex rounded-lg bg-red-200 px-3 py-1">
-					<p>
-						Your Profile is Incomplete.{" "}
-						<li className="list-none text-blue-600 underline decoration-blue-600">
-							<Link to="/profile">Complete Now</Link>
-						</li>
-					</p>
-				</div>
+				{isLoggedIn && (
+					<div className="flex rounded-lg bg-red-200 px-3 py-1">
+						<p>
+							Your Profile is Incomplete.{" "}
+							<li className="list-none text-blue-600 underline decoration-blue-600">
+								<Link to="/profile">Complete Now</Link>
+							</li>
+						</p>
+					</div>
+				)}
 			</div>
 
 			<div className="py-5">

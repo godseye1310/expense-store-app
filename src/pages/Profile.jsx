@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 // import useAuth from "../store/auth-context";
 import axios from "axios";
 import ProfileForm from "../components/profile/ProfileForm";
@@ -18,7 +18,7 @@ const Profile = () => {
 
 	const navigateTo = useNavigate();
 
-	const token = useSelector((state) => state.auth.token);
+	const { token, isLoggedIn } = useSelector((state) => state.auth);
 
 	let pfc = 0;
 	if (displayName && photoUrl) {
@@ -47,28 +47,30 @@ const Profile = () => {
 		}
 	};
 
-	useEffect(() => {
-		const fetchUserData = async () => {
-			try {
-				const response = await axios.post(FETCH_USER_URL, {
-					idToken: token,
-				});
-				// console.log(response.data);
-				setDisplayName(response.data.users[0].displayName);
-				setPhotoUrl(response.data.users[0].photoUrl);
-				setVerified(response.data.users[0].emailVerified);
-			} catch (error) {
-				console.log(error.response.data);
-				if (error.response.data.error.message === "INVALID_ID_TOKEN") {
-					alert("Session Time-out. The user must sign in again.");
-					navigateTo("/", { replace: true });
-				}
-			}
-		};
-		if (token) {
-			fetchUserData();
-		}
-	}, [token, navigateTo]);
+	// const fetchUserData = useCallback(async () => {
+	// 	try {
+	// 		const response = await axios.post(FETCH_USER_URL, {
+	// 			idToken: token,
+	// 		});
+	// 		console.log(response.data);
+	// 		setDisplayName(response.data.users[0].displayName);
+	// 		setPhotoUrl(response.data.users[0].photoUrl);
+	// 		setVerified(response.data.users[0].emailVerified);
+	// 	} catch (error) {
+	// 		console.log(error.response.data);
+	// 		if (error.response.data.error.message === "INVALID_ID_TOKEN") {
+	// 			alert("Session Time-out. The user must sign in again.");
+	// 			navigateTo("/", { replace: true });
+	// 		}
+	// 	}
+	// }, [token, navigateTo]);
+
+	// useEffect(() => {
+	// 	console.log(isLoggedIn);
+	// 	if (token) {
+	// 		fetchUserData();
+	// 	}
+	// }, [token, isLoggedIn, fetchUserData]);
 
 	const darkMode = useSelector((state) => state.theme.darkMode);
 
