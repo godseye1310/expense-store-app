@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import RootLayout from "./components/Layout/RootLayout";
 import {
 	createBrowserRouter,
 	Navigate,
 	RouterProvider,
-	useNavigate,
 } from "react-router-dom";
 import Home from "./pages/Home";
 import SignInPage from "./pages/SignInPage";
@@ -15,27 +14,27 @@ import { DisplayProvider } from "./store/display-ctx";
 import About from "./pages/About";
 import Products from "./pages/Products";
 import { useDispatch, useSelector } from "react-redux";
-import { authActions, fetchProfile } from "./store/auth-reducer";
+import { authActions } from "./store/auth-reducer";
 
-let isInitialLoad = true;
+// let isInitialLoad = true;
 
 function App() {
 	const dispatch = useDispatch();
 
 	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-	// const navigateTo = useNavigate();
 	const [isLoadingAuth, setIsLoadingAuth] = useState(true); // To handle the initial loading state
 
+	const userID = useSelector((state) => state.auth.userID);
+	const isInitialLoad = useRef(true);
+
 	useEffect(() => {
-		// console.log(isLoggedIn);
 		// Check if token exists in localStorage
 		const storedToken = localStorage.getItem("token");
-		if (storedToken && isInitialLoad) {
+		if (storedToken && isInitialLoad.current) {
 			// Dispatch the login action with the token from localStorage
 			dispatch(authActions.handleLogIn(storedToken));
-			// dispatch(fetchProfile(storedToken));
+			isInitialLoad.current = false;
 		}
-		isInitialLoad = false;
 		// Once token is checked and dispatched, stop loading
 		setIsLoadingAuth(false);
 	}, [dispatch, isLoggedIn]);
@@ -44,6 +43,8 @@ function App() {
 	if (isLoadingAuth) {
 		return <div>Loading...</div>; // loading spinner
 	}
+
+	console.log(userID);
 
 	const router = createBrowserRouter([
 		{

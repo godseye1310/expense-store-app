@@ -1,14 +1,18 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
 // import useAuth from "../store/auth-context";
 import axios from "axios";
 import ProfileForm from "../components/profile/ProfileForm";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../store/auth-reducer";
 
 const API_KEY = `AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0`;
-
 const UPDATE_USER_URL = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${API_KEY}`;
-const FETCH_USER_URL = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`;
 
 const Profile = () => {
 	const [displayName, setDisplayName] = useState("");
@@ -16,9 +20,8 @@ const Profile = () => {
 	const inputRef = useRef(null);
 	const [isVerified, setVerified] = useState(false);
 
-	const navigateTo = useNavigate();
-
-	const { token, isLoggedIn } = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
+	const { token, userProfile } = useSelector((state) => state.auth);
 
 	let pfc = 0;
 	if (displayName && photoUrl) {
@@ -26,6 +29,13 @@ const Profile = () => {
 	} else if (displayName || photoUrl) {
 		pfc = 50;
 	}
+	const memoizedProfile = useMemo(() => {
+		return {
+			displayName: userProfile?.displayName || "",
+			photoUrl: userProfile?.photoUrl || "",
+			isVerified: userProfile?.emailVerified || false,
+		};
+	}, [userProfile]);
 
 	const handlePrfofileSubmit = async (event) => {
 		event.preventDefault();
@@ -39,38 +49,24 @@ const Profile = () => {
 		};
 
 		try {
-			// console.log(profileData);
 			const response = await axios.post(UPDATE_USER_URL, profileData);
 			console.log(response.data);
+
+			dispatch(authActions.setUserProfile(response.data));
+
+			console.log("success");
 		} catch (error) {
-			console.log(error.response);
+			console.log(error);
 		}
 	};
 
-	// const fetchUserData = useCallback(async () => {
-	// 	try {
-	// 		const response = await axios.post(FETCH_USER_URL, {
-	// 			idToken: token,
-	// 		});
-	// 		console.log(response.data);
-	// 		setDisplayName(response.data.users[0].displayName);
-	// 		setPhotoUrl(response.data.users[0].photoUrl);
-	// 		setVerified(response.data.users[0].emailVerified);
-	// 	} catch (error) {
-	// 		console.log(error.response.data);
-	// 		if (error.response.data.error.message === "INVALID_ID_TOKEN") {
-	// 			alert("Session Time-out. The user must sign in again.");
-	// 			navigateTo("/", { replace: true });
-	// 		}
-	// 	}
-	// }, [token, navigateTo]);
-
-	// useEffect(() => {
-	// 	console.log(isLoggedIn);
-	// 	if (token) {
-	// 		fetchUserData();
-	// 	}
-	// }, [token, isLoggedIn, fetchUserData]);
+	useEffect(() => {
+		if (memoizedProfile) {
+			setDisplayName(memoizedProfile.displayName);
+			setPhotoUrl(memoizedProfile.photoUrl);
+			setVerified(memoizedProfile.emailVerified);
+		}
+	}, [memoizedProfile]);
 
 	const darkMode = useSelector((state) => state.theme.darkMode);
 

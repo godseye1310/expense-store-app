@@ -13,7 +13,7 @@ const RootLayout = () => {
 
 	const { token, isLoggedIn } = useSelector((state) => state.auth);
 	useEffect(() => {
-		if (token && isInitialLoad) {
+		if (token && isInitialLoad && isLoggedIn) {
 			dispatch(fetchProfile(token, naviateTo));
 		}
 	}, [dispatch, naviateTo, isLoggedIn, token]);

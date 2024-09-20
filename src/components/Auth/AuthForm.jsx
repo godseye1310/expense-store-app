@@ -42,12 +42,11 @@ const AuthForm = () => {
 		if (!isSignUp) {
 			try {
 				const response = await axios.post(SIGNIN_URL, userAuthData);
-				console.log(response.data);
+				// console.log(response.data);
 
-				// handleLogIn(response.data.idToken);
 				const token = response.data.idToken;
-				localStorage.setItem("token", token);
 				dispatch(authActions.handleLogIn(token));
+				localStorage.setItem("token", token);
 				handlePopupDisplay();
 				naviateTo("/home", { replace: true });
 				setEmail("");

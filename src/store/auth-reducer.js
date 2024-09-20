@@ -5,6 +5,7 @@ const initialState = {
 	isLoggedIn: false,
 	token: "",
 	userID: "",
+	userProfile: {},
 };
 
 const authSlice = createSlice({
@@ -14,11 +15,20 @@ const authSlice = createSlice({
 		handleLogIn(state, action) {
 			state.isLoggedIn = true;
 			state.token = action.payload;
+			console.log(state.isLoggedIn);
 		},
 		handleLogout(state) {
 			state.token = null;
 			state.userID = null;
 			state.isLoggedIn = false;
+			state.userProfile = null;
+		},
+		setUserID(state, action) {
+			console.log(action.payload);
+			state.userID = action.payload;
+		},
+		setUserProfile(state, action) {
+			state.userProfile = { ...state.userProfile, ...action.payload };
 		},
 	},
 });
@@ -36,13 +46,18 @@ export const fetchProfile = (token, navigateTo) => {
 			const response = await axios.post(FETCH_USER_URL, {
 				idToken: token,
 			});
-			console.log(response.data);
+			// console.log(response.data);
+			const userProfileData = response.data.users[0];
+			dispatch(authActions.setUserID(userProfileData.localId));
+			dispatch(authActions.setUserProfile(userProfileData));
+			// error
 		} catch (error) {
 			console.log(error.response.data);
 			if (error.response.data.error.message === "INVALID_ID_TOKEN") {
-				alert("Session Time-out. The user must sign in again.");
-				navigateTo("/", { replace: true });
 				dispatch(authActions.handleLogout());
+				localStorage.removeItem("token");
+				navigateTo("/", { replace: true });
+				alert("Session Time-out. The user must sign in again.");
 			}
 		}
 	};
