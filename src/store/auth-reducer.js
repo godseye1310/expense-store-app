@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { fetchExpense } from "./expense-action-thunks";
 
 const initialState = {
 	isLoggedIn: false,
@@ -24,7 +25,6 @@ const authSlice = createSlice({
 			state.userProfile = {};
 		},
 		setUserID(state, action) {
-			console.log(action.payload);
 			state.userID = action.payload;
 		},
 		setUserProfile(state, action) {
@@ -51,6 +51,7 @@ export const fetchProfile = (token, navigateTo) => {
 			dispatch(authActions.setUserID(userProfileData.localId));
 			dispatch(authActions.setUserProfile(userProfileData));
 			// error
+			dispatch(fetchExpense(userProfileData.localId));
 		} catch (error) {
 			console.log(error.response.data);
 			if (error.response.data.error.message === "INVALID_ID_TOKEN") {

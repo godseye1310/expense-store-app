@@ -42,6 +42,9 @@ const expenseSlice = createSlice({
 			// 		: item;
 			// });
 		},
+		setExpenseList(state, action) {
+			state.expenseList = action.payload;
+		},
 	},
 });
 

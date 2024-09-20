@@ -1,21 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ExpenseForm from "../components/ExpenseTrack/ExpenseForm";
 import ExpenseList from "../components/ExpenseTrack/ExpenseList";
 import useDisplay from "../store/display-ctx";
 import { useDispatch, useSelector } from "react-redux";
 import { themeActions } from "../store/theme-reducer";
 import ExpenseDownloadBtn from "../components/ExpenseTrack/ExpenseDownloadBtn";
-import { fetchExpense } from "../store/expense-action-thunks";
 
 const ExpensePage = () => {
 	const { expenseFormDisplay, setExpenseFormDisplay } = useDisplay();
 
 	const dispatch = useDispatch();
-	const { userID } = useSelector((state) => state.auth);
-
-	useEffect(() => {
-		dispatch(fetchExpense(userID));
-	}, [dispatch, userID]);
 
 	const handlePremium = () => {
 		dispatch(themeActions.activePremium());

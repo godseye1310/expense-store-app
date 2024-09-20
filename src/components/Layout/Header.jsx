@@ -7,6 +7,7 @@ import { SiExpensify } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth-reducer";
 import { themeActions } from "../../store/theme-reducer";
+import { expenseActions } from "../../store/expense-reducer";
 
 const Header = () => {
 	// const { isLoggedIn, handleLogOut } = useAuth();
@@ -21,6 +22,7 @@ const Header = () => {
 		// handleLogOut();
 		localStorage.removeItem("token");
 		dispatch(authActions.handleLogout());
+		dispatch(expenseActions.setExpenseList([]));
 		handlePopupDisplay();
 		navigateTo("/", { replace: true });
 	};
