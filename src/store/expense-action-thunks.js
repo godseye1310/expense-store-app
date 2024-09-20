@@ -3,12 +3,12 @@ import { expenseActions } from "./expense-reducer";
 
 const RTDB_URL = `https://expense-store-app-default-rtdb.asia-southeast1.firebasedatabase.app/userExpense`;
 
-export const addExpense = (expenseItem) => {
+export const addExpense = (expenseItem, userID) => {
 	return (dispatch) => {
 		const addExpenseItem = async () => {
 			try {
 				const response = await axios.post(
-					`${RTDB_URL}.json`,
+					`${RTDB_URL}/${userID}.json`,
 					expenseItem,
 				);
 				console.log(response.data);
@@ -17,14 +17,8 @@ export const addExpense = (expenseItem) => {
 					response.statusText,
 					"Expense ADD Success",
 				);
-				// setExpenseList((prev) => [
-				// 	...prev,
-				// 	{ ...item, id: response.data.name },
-				// ]);
-
-				console.log({ ...expenseItem, id: response.data.name });
+				// console.log({ ...expenseItem, id: response.data.name });
 				const newExpense = { ...expenseItem, id: response.data.name };
-
 				dispatch(expenseActions.addtoExpenseList(newExpense));
 			} catch (error) {
 				console.log(error.response.data);
@@ -34,22 +28,30 @@ export const addExpense = (expenseItem) => {
 	};
 };
 
-export const fetchExpense = () => {
+export const fetchExpense = (userID) => {
 	return (dispatch) => {
 		const fetchExpenseList = async () => {
 			try {
-				const response = await axios.get(`${RTDB_URL}.json`);
+				console.log("fetch ID: ", userID);
+
+				const response = await axios.get(`${RTDB_URL}/${userID}.json`);
 				// console.log(response.data);
 				console.log(
 					response.status,
 					response.statusText,
 					"Expense Fetch Success",
 				);
-				const fetchList = Object.keys(response.data).map((key) => {
-					return { ...response.data[key], id: key };
-				});
-				// console.log(fetchList);
-				dispatch(expenseActions.fetchExpenseList(fetchList));
+
+				let fetchList = [];
+				if (response.data) {
+					let fetchList = Object.keys(response.data).map((key) => {
+						return { ...response.data[key], id: key };
+					});
+					// console.log(fetchList);
+					dispatch(expenseActions.fetchExpenseList(fetchList));
+				} else {
+					dispatch(expenseActions.fetchExpenseList(fetchList));
+				}
 			} catch (error) {
 				console.log(error);
 			}
@@ -58,11 +60,13 @@ export const fetchExpense = () => {
 	};
 };
 
-export const deleteExpense = (id) => {
+export const deleteExpense = (id, userID) => {
 	return (dispatch) => {
 		const deleteExpenseItem = async () => {
 			try {
-				const response = await axios.delete(`${RTDB_URL}/${id}.json`);
+				const response = await axios.delete(
+					`${RTDB_URL}/${userID}/${id}.json`,
+				);
 				console.log(
 					response.status,
 					response.statusText,
@@ -80,12 +84,12 @@ export const deleteExpense = (id) => {
 	};
 };
 
-export const updateExpense = (updateItem, id) => {
+export const updateExpense = (updateItem, id, userID) => {
 	return (dispatch) => {
 		const updateExpenseItem = async () => {
 			try {
 				const response = await axios.put(
-					`${RTDB_URL}/${id}.json`,
+					`${RTDB_URL}/${userID}/${id}.json`,
 					updateItem,
 				);
 				// console.log(response.data);

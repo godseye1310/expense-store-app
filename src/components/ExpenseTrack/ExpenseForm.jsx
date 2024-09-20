@@ -39,6 +39,7 @@ const ExpenseForm = () => {
 	const { amount, title, category } = useSelector(
 		(state) => state.expenseForm,
 	);
+	const userID = useSelector((state) => state.auth.userID);
 	const isEditID = useSelector((state) => state.expenseForm.isEditID);
 
 	const { setExpenseFormDisplay } = useDisplay();
@@ -53,10 +54,10 @@ const ExpenseForm = () => {
 		};
 		// console.log(expense);
 		if (!isEditID) {
-			dispatch(addExpense(expense));
+			dispatch(addExpense(expense, userID));
 		} else {
 			// console.log(expense, isEditID);
-			dispatch(updateExpense(expense, isEditID));
+			dispatch(updateExpense(expense, isEditID, userID));
 		}
 	};
 

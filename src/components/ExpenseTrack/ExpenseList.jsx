@@ -12,10 +12,11 @@ import {
 const ExpenseList = () => {
 	const { setExpenseFormDisplay } = useDisplay();
 	const expenseList = useSelector((state) => state.expense.expenseList);
+	const userID = useSelector((state) => state.auth.userID);
 	const dispatch = useDispatch();
 
 	const handleDelete = (id) => {
-		dispatch(deleteExpense(id));
+		dispatch(deleteExpense(id, userID));
 	};
 
 	const handleEdit = (item) => {

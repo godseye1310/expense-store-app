@@ -11,10 +11,11 @@ const ExpensePage = () => {
 	const { expenseFormDisplay, setExpenseFormDisplay } = useDisplay();
 
 	const dispatch = useDispatch();
+	const { userID } = useSelector((state) => state.auth);
 
 	useEffect(() => {
-		dispatch(fetchExpense());
-	}, [dispatch]);
+		dispatch(fetchExpense(userID));
+	}, [dispatch, userID]);
 
 	const handlePremium = () => {
 		dispatch(themeActions.activePremium());

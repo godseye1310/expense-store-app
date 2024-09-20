@@ -11,12 +11,12 @@ const RootLayout = () => {
 	const dispatch = useDispatch();
 	const naviateTo = useNavigate();
 
-	const { token, isLoggedIn } = useSelector((state) => state.auth);
+	const { token } = useSelector((state) => state.auth);
 	useEffect(() => {
-		if (token && isInitialLoad && isLoggedIn) {
+		if (isInitialLoad && token) {
 			dispatch(fetchProfile(token, naviateTo));
 		}
-	}, [dispatch, naviateTo, isLoggedIn, token]);
+	}, [dispatch, naviateTo, token]);
 
 	return (
 		<main className="">
