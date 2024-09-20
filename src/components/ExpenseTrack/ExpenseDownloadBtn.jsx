@@ -8,7 +8,7 @@ const ExpenseDownloadBtn = ({ expenseList }) => {
 		// const expenseHeader = expenseList.map((list) => Object.keys(list))[0];
 		// console.log(expenseHeader);
 
-		const headers = ["ID", "Amount", "Descripition", "Category"];
+		const headers = ["ID", "Amount", "title", "Category"];
 		const csvRows = [
 			headers.join(","), // Headers
 			...expenseList.map(
@@ -16,7 +16,7 @@ const ExpenseDownloadBtn = ({ expenseList }) => {
 					[
 						expense.id,
 						expense.amount,
-						expense.descripition,
+						expense.title,
 						expense.category,
 					].join(","), // Data rows
 			),
