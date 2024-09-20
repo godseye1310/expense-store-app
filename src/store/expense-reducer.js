@@ -17,13 +17,30 @@ const expenseSlice = createSlice({
 			);
 		},
 		expenseUpdateHandler(state, action) {
-			console.log(action.payload);
+			//  TC:O(n) SC:O(1) less //flexible if new properties were added
+			let updateItem = state.expenseList.find(
+				(item) => item.id === action.payload.id,
+			);
+			if (updateItem) {
+				updateItem.amount = action.payload.amount;
+				updateItem.title = action.payload.title;
+				updateItem.category = action.payload.category;
+			}
 
-			state.expenseList = state.expenseList.map((item) => {
-				return item.id === action.payload.id
-					? { ...item, ...action.payload }
-					: item;
-			});
+			//  TC:O(n) SC:O(1) // most optimal overall
+			// const updateIndex = state.expenseList.findIndex(
+			// 	(item) => item.id === action.payload.id
+			// );
+			// if (updateIndex !== -1) {
+			// 	state.expenseList[updateIndex] = { ...state.expenseList[updateIndex], ...action.payload };
+			// }
+
+			// TC:O(n) SC:O(n) //creates new array //high space complexity
+			// state.expenseList = state.expenseList.map((item) => {
+			// 	return item.id === action.payload.id
+			// 		? { ...item, ...action.payload }
+			// 		: item;
+			// });
 		},
 	},
 });

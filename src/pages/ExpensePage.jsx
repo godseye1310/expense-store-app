@@ -1,51 +1,20 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ExpenseForm from "../components/ExpenseTrack/ExpenseForm";
 import ExpenseList from "../components/ExpenseTrack/ExpenseList";
 import useDisplay from "../store/display-ctx";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { expenseActions } from "../store/expense-reducer";
 import { themeActions } from "../store/theme-reducer";
 import ExpenseDownloadBtn from "../components/ExpenseTrack/ExpenseDownloadBtn";
-
-const RTDB_URL = `https://expense-store-app-default-rtdb.asia-southeast1.firebasedatabase.app/userExpense`;
+import { fetchExpense } from "../store/expense-action-thunks";
 
 const ExpensePage = () => {
 	const { expenseFormDisplay, setExpenseFormDisplay } = useDisplay();
 
 	const dispatch = useDispatch();
 
-	const fetchExpenseList = useCallback(async () => {
-		try {
-			const response = await axios.get(`${RTDB_URL}.json`);
-			// console.log(response.data);
-			console.log(
-				response.status,
-				response.statusText,
-				"Expense Fetch Success",
-			);
-			const fetchList = Object.keys(response.data).map((key) => {
-				return { ...response.data[key], id: key };
-			});
-			// setExpenseList(fetchList);
-			// console.log(fetchList);
-			dispatch(expenseActions.fetchExpenseList(fetchList));
-		} catch (error) {
-			console.log(error);
-		}
-	}, [dispatch]);
 	useEffect(() => {
-		fetchExpenseList();
-	}, [fetchExpenseList]);
-
-	const [editExpense, setEditExpense] = useState();
-	const handleEditExpenseData = (item) => {
-		// console.log(item);
-		setEditExpense(item);
-		// setAmount(item.amount);
-		// setDescripition(item.descripition);
-		// setCategory(item.category);
-	};
+		dispatch(fetchExpense());
+	}, [dispatch]);
 
 	const handlePremium = () => {
 		dispatch(themeActions.activePremium());
@@ -57,15 +26,14 @@ const ExpensePage = () => {
 		return acc + +curr.amount;
 	}, 0);
 
-	// console.log(totalExpense);
 	const darkMode = useSelector((state) => state.theme.darkMode);
 
 	return (
 		<div
 			className={`relative h-full w-full ${darkMode ? "bg-gray-900 text-white" : "bg-gray-300"}`}
 		>
-			{expenseFormDisplay && <ExpenseForm editExpense={editExpense} />}
-			<ExpenseList handleEditExpenseData={handleEditExpenseData} />
+			{expenseFormDisplay && <ExpenseForm />}
+			<ExpenseList />
 			<button
 				type="button"
 				onClick={() => {

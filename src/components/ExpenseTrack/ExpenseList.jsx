@@ -1,25 +1,30 @@
 import React from "react";
-// import useExpense from "../../store/expense-context";
 import useDisplay from "../../store/display-ctx";
 import { useDispatch, useSelector } from "react-redux";
-import { expenseActions } from "../../store/expense-reducer";
+import { deleteExpense } from "../../store/expense-action-thunks";
+import {
+	setAmount,
+	setCategory,
+	setEdit,
+	setTitle,
+} from "../../store/e-form-reducer";
 
-const ExpenseList = ({ handleEditExpenseData }) => {
-	// const { expenseList, expenseDeleteHandler, handleEditExpenseData } = useExpense();
+const ExpenseList = () => {
 	const { setExpenseFormDisplay } = useDisplay();
-
 	const expenseList = useSelector((state) => state.expense.expenseList);
-
 	const dispatch = useDispatch();
 
 	const handleDelete = (id) => {
-		// expenseDeleteHandler(id);
-		dispatch(expenseActions.expenseDeleteHandler(id));
+		dispatch(deleteExpense(id));
 	};
 
 	const handleEdit = (item) => {
 		setExpenseFormDisplay(true);
-		handleEditExpenseData(item);
+		// console.log(item);
+		dispatch(setAmount(item.amount));
+		dispatch(setTitle(item.title));
+		dispatch(setCategory(item.category));
+		dispatch(setEdit(item.id));
 	};
 
 	const darkMode = useSelector((state) => state.theme.darkMode);
@@ -39,7 +44,7 @@ const ExpenseList = ({ handleEditExpenseData }) => {
 							>
 								<span>${item.amount}-</span>
 								<span>{item.category}-</span>
-								<span>{item.descripition}-</span>
+								<span>{item.title}-</span>
 								<button
 									onClick={() => handleDelete(item.id)}
 									type="button"

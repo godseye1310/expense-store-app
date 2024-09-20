@@ -1,12 +1,16 @@
-import React, { useCallback, useState } from "react";
-// import useExpense from "../../store/expense-context";
+import React from "react";
 import FormOverlayModal from "../UI/FormOverlayModal";
 import useDisplay from "../../store/display-ctx";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { expenseActions } from "../../store/expense-reducer";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	clearForm,
+	setAmount,
+	setCategory,
+	setEdit,
+	setTitle,
+} from "../../store/e-form-reducer";
+import { addExpense, updateExpense } from "../../store/expense-action-thunks";
 
-const RTDB_URL = `https://expense-store-app-default-rtdb.asia-southeast1.firebasedatabase.app/userExpense`;
 const options = [
 	"Grocery",
 	"Petrol",
@@ -18,19 +22,24 @@ const options = [
 ];
 
 const ExpenseForm = () => {
-	const [amount, setAmount] = useState("");
-	const [descripition, setDescripition] = useState("");
-	const [category, setCategory] = useState("");
+	// const [amount, setAmount] = useState("");
+	// const [title, setTitle] = useState("");
+	// const [category, setCategory] = useState("");
 	// const { setExpense, addtoExpenseList, editExpense, expenseUpdateHandler } =useExpense();
 	// const {
 	// 	amount,
 	// 	setAmount,
-	// 	descripition,
-	// 	setDescripition,
+	// 	title,
+	// 	setTitle,
 	// 	category,
 	// 	setCategory,
 	// } = setExpense;
+
 	const dispatch = useDispatch();
+	const { amount, title, category } = useSelector(
+		(state) => state.expenseForm,
+	);
+	const isEditID = useSelector((state) => state.expenseForm.isEditID);
 
 	const { setExpenseFormDisplay } = useDisplay();
 
@@ -39,87 +48,34 @@ const ExpenseForm = () => {
 
 		const expense = {
 			amount: amount,
-			descripition: descripition,
+			title: title,
 			category: category,
 		};
 		// console.log(expense);
-		// if(!editExpense)
-		if (true) {
-			addtoExpenseList(expense);
+		if (!isEditID) {
+			dispatch(addExpense(expense));
 		} else {
-			// 	// console.log(editExpense);
-			const id = "editing item id";
-			expenseUpdateHandler(expense, id);
+			// console.log(expense, isEditID);
+			dispatch(updateExpense(expense, isEditID));
 		}
 	};
 
-	const addtoExpenseList = useCallback(
-		async (item) => {
-			try {
-				const response = await axios.post(`${RTDB_URL}.json`, item);
-				// console.log(response.data);
-				console.log(
-					response.status,
-					response.statusText,
-					"Expense ADD Success",
-				);
-				// setExpenseList((prev) => [
-				// 	...prev,
-				// 	{ ...item, id: response.data.name },
-				// ]);
-				dispatch(
-					expenseActions.addtoExpenseList({
-						...item,
-						id: response.data.name,
-					}),
-				);
-			} catch (error) {
-				console.log(error.response.data);
-			}
-		},
-		[dispatch],
-	);
+	const handleAmountChange = (event) => {
+		dispatch(setAmount(event.target.value));
+	};
 
-	const expenseUpdateHandler = useCallback(
-		async (updateItem, id) => {
-			// console.log(updateItem, id);
-			try {
-				const response = await axios.put(
-					`${RTDB_URL}/${id}.json`,
-					updateItem,
-				);
-				console.log(response);
-				console.log(
-					response.status,
-					response.statusText,
-					"Expense Update Success",
-				);
-				// setExpenseList((prev) =>
-				// 	prev.map((item) => {
-				// 		return item.id === id ? { ...item, ...updateItem } : item;
-				// 	}),
-				// );
-				// console.log({ ...updateItem, id: id });
+	const handleTitleChange = (event) => {
+		dispatch(setTitle(event.target.value));
+	};
 
-				dispatch(
-					expenseActions.expenseUpdateHandler({
-						...updateItem,
-						id: id,
-					}),
-				);
-				console.log("Expense successfuly updated");
-			} catch (error) {
-				console.log(error.response.data);
-			}
-		},
-		[dispatch],
-	);
+	const handleCategoryChange = (event) => {
+		dispatch(setCategory(event.target.value));
+	};
 
 	const handleCloseForm = () => {
 		setExpenseFormDisplay(false);
-		setAmount("");
-		setDescripition("");
-		setCategory("");
+		dispatch(clearForm());
+		dispatch(setEdit(false));
 	};
 
 	return (
@@ -129,17 +85,17 @@ const ExpenseForm = () => {
 					<section className="flex flex-col gap-5 font-medium">
 						<div className="mx-auto w-64">
 							<label
-								htmlFor="money"
+								htmlFor="e-amount"
 								className="block text-sm font-medium"
 							>
 								Expense Amount
 							</label>
 							<input
-								id="money"
-								name="money"
+								id="e-amount"
+								name="e-amount"
 								type="number"
 								value={amount}
-								onChange={(e) => setAmount(e.target.value)}
+								onChange={handleAmountChange}
 								required
 								className="mt-1 w-full rounded-md border border-none bg-white p-2 text-black focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
 							/>
@@ -147,19 +103,17 @@ const ExpenseForm = () => {
 
 						<div className="mx-auto w-64">
 							<label
-								htmlFor="descripition"
+								htmlFor="e-title"
 								className="block text-sm font-medium"
 							>
-								Descripition
+								title
 							</label>
 							<input
-								id="descripition"
-								name="descripition"
+								id="e-title"
+								name="e-title"
 								type="text"
-								value={descripition}
-								onChange={(e) =>
-									setDescripition(e.target.value)
-								}
+								value={title}
+								onChange={handleTitleChange}
 								required
 								className="mt-1 w-full rounded-md border border-none bg-white p-2 text-black focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
 							/>
@@ -167,15 +121,15 @@ const ExpenseForm = () => {
 
 						<div className="mx-auto w-64">
 							<label
-								htmlFor="category"
+								htmlFor="e-category"
 								className="block text-sm font-medium"
 							>
 								Expense Category
 							</label>
 							<select
-								id="category"
+								id="e-category"
 								value={category}
-								onChange={(e) => setCategory(e.target.value)}
+								onChange={handleCategoryChange}
 								required
 								className="mt-1 block w-full rounded-md border-none bg-white p-2 text-black focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
 							>
@@ -197,7 +151,7 @@ const ExpenseForm = () => {
 							type="submit"
 							className="rounded-md bg-blue-500 px-3 py-1 hover:bg-blue-600"
 						>
-							Add
+							{!isEditID ? "Add" : "Update"}
 						</button>
 					</div>
 				</form>
