@@ -1,11 +1,4 @@
-import React, {
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from "react";
-// import useAuth from "../store/auth-context";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import ProfileForm from "../components/profile/ProfileForm";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,12 +16,6 @@ const Profile = () => {
 	const dispatch = useDispatch();
 	const { token, userProfile } = useSelector((state) => state.auth);
 
-	let pfc = 0;
-	if (displayName && photoUrl) {
-		pfc = 100;
-	} else if (displayName || photoUrl) {
-		pfc = 50;
-	}
 	const memoizedProfile = useMemo(() => {
 		return {
 			displayName: userProfile?.displayName || "",
@@ -67,6 +54,13 @@ const Profile = () => {
 			setVerified(memoizedProfile.emailVerified);
 		}
 	}, [memoizedProfile]);
+
+	let pfc = 0;
+	if (displayName && photoUrl) {
+		pfc = 100;
+	} else if (displayName || photoUrl) {
+		pfc = 50;
+	}
 
 	const darkMode = useSelector((state) => state.theme.darkMode);
 

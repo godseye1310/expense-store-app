@@ -46,6 +46,7 @@ const AuthForm = () => {
 
 				const token = response.data.idToken;
 				dispatch(authActions.handleLogIn(token));
+				dispatch(authActions.setUserID(response.data.localId));
 				localStorage.setItem("token", token);
 				handlePopupDisplay();
 				naviateTo("/home", { replace: true });
@@ -76,7 +77,10 @@ const AuthForm = () => {
 					setEmail("");
 					setPassword("");
 					console.log(response.data);
-					dispatch(authActions.handleLogIn(response.data.idToken));
+					const token = response.data.idToken;
+					dispatch(authActions.handleLogIn(token));
+					dispatch(authActions.setUserID(response.data.localId));
+					localStorage.setItem("token", token);
 				} else {
 					setErrorMessage("* Password doesnt Match");
 					setIsErrorVisible(true);

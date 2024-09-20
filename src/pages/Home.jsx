@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 const Home = () => {
 	const darkMode = useSelector((state) => state.theme.darkMode);
 	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+	const userProfile = useSelector((state) => state.auth.userProfile);
+
+	const displayName = userProfile.displayName || "User";
+
 	return (
 		<div
 			className={`p-3 pt-2 ${darkMode && "h-full w-full bg-gray-900 text-white"}`}
@@ -26,7 +30,11 @@ const Home = () => {
 			</div>
 
 			<div className="py-5">
-				<h1 className="text-center text-5xl">Hii New User</h1>
+				<h1 className="text-center text-5xl">
+					{isLoggedIn
+						? `Welcome Back ${displayName || "user"}`
+						: "Hii New User"}
+				</h1>
 			</div>
 		</div>
 	);

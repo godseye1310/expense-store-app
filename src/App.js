@@ -24,7 +24,6 @@ function App() {
 	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 	const [isLoadingAuth, setIsLoadingAuth] = useState(true); // To handle the initial loading state
 
-	const userID = useSelector((state) => state.auth.userID);
 	const isInitialLoad = useRef(true);
 
 	useEffect(() => {
@@ -37,14 +36,12 @@ function App() {
 		}
 		// Once token is checked and dispatched, stop loading
 		setIsLoadingAuth(false);
-	}, [dispatch, isLoggedIn]);
+	}, [dispatch]);
 
 	// Avoid rendering routes until we check for token
 	if (isLoadingAuth) {
 		return <div>Loading...</div>; // loading spinner
 	}
-
-	console.log(userID);
 
 	const router = createBrowserRouter([
 		{

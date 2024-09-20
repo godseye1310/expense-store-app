@@ -21,7 +21,7 @@ const authSlice = createSlice({
 			state.token = null;
 			state.userID = null;
 			state.isLoggedIn = false;
-			state.userProfile = null;
+			state.userProfile = {};
 		},
 		setUserID(state, action) {
 			console.log(action.payload);
