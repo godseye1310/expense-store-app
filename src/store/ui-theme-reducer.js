@@ -15,10 +15,14 @@ const uiThemeSlice = createSlice({
 			info: "",
 		},
 		isEformDisplay: false,
+		prfoileInfo: false,
 	},
 	reducers: {
 		toggleDarkMode: (state) => {
 			state.darkMode = !state.darkMode;
+		},
+		setDarkMode: (state, action) => {
+			state.darkMode = action.payload;
 		},
 		activePremium: (state, action) => {
 			state.isPremium = action.payload;
@@ -38,6 +42,9 @@ const uiThemeSlice = createSlice({
 		},
 		setFormDisplay(state, action) {
 			state.isEformDisplay = action.payload;
+		},
+		setProfileinfo(state, action) {
+			state.prfoileInfo = action.payload;
 		},
 	},
 });

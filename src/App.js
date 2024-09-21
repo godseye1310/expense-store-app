@@ -10,7 +10,6 @@ import SignInPage from "./pages/SignInPage";
 import Profile from "./pages/Profile";
 import ForgorPassword from "./pages/ForgorPassword";
 import ExpensePage from "./pages/ExpensePage";
-import { DisplayProvider } from "./store/display-ctx";
 import About from "./pages/About";
 import Products from "./pages/Products";
 import { useDispatch, useSelector } from "react-redux";
@@ -71,11 +70,7 @@ function App() {
 			],
 		},
 	]);
-	return (
-		<DisplayProvider>
-			<RouterProvider router={router} />
-		</DisplayProvider>
-	);
+	return <RouterProvider router={router} />;
 }
 
 export default App;

@@ -32,6 +32,13 @@ export const addExpense = (expenseItem, userID) => {
 				dispatch(clearForm());
 			} catch (error) {
 				console.log(error.response.data);
+				dispatch(
+					uiThemeActions.setExpenseinfo({
+						isVisible: true,
+						info: "Failed",
+						clxName: "bg-red-600",
+					}),
+				);
 			} finally {
 				setTimeout(() => {
 					dispatch(

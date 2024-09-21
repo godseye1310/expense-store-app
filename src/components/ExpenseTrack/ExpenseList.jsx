@@ -74,14 +74,14 @@ const ExpenseList = () => {
 								<button
 									onClick={() => handleDelete(item.id)}
 									type="button"
-									className="col-span-1 self-center justify-self-center rounded bg-red-500 p-1 px-0.5 text-gray-100 hover:bg-rose-600 hover:text-white"
+									className="col-span-1 self-center justify-self-center rounded bg-gray-200 p-1 px-0.5 text-red-400 hover:bg-rose-600 hover:text-white"
 								>
 									<RiDeleteBin5Line className="text-lg" />
 								</button>
 								<button
 									onClick={() => handleEdit(item)}
 									type="button"
-									className="col-span-1 self-center justify-self-center rounded bg-blue-500 p-1 text-amber-500 hover:bg-amber-600 hover:text-white"
+									className="col-span-1 self-center justify-self-center rounded bg-sky-600 p-1 text-gray-300 hover:bg-amber-600 hover:text-white"
 								>
 									<HiPencilAlt className="text-lg" />
 								</button>

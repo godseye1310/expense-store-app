@@ -59,7 +59,7 @@ export const fetchProfile = (token, navigateTo) => {
 				dispatch(authActions.handleLogout());
 				localStorage.removeItem("token");
 				navigateTo("/", { replace: true });
-				alert("Session Time-out. The user must sign in again.");
+				// alert("Session Time-out. The user must sign in again.");
 				dispatch(
 					uiThemeActions.setLogInfo({
 						isVisible: true,

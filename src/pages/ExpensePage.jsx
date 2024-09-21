@@ -28,6 +28,7 @@ const ExpensePage = () => {
 
 		if (totalExpense < 10000) {
 			dispatch(uiThemeActions.activePremium(false));
+			dispatch(uiThemeActions.setDarkMode(false));
 		}
 	}, [totalExpense, dispatch]);
 
@@ -99,4 +100,3 @@ export default ExpensePage;
 
 // {/* <FaCheckCircle className="size-6" /> */}
 // {/* <TiDelete className="size-9" /> */}
-// {/* <IoIosInformationCircle className="size-6" /> */}

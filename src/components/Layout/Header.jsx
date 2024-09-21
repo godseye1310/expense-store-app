@@ -20,6 +20,8 @@ const Header = () => {
 		localStorage.removeItem("token");
 		dispatch(authActions.handleLogout());
 		dispatch(expenseActions.setExpenseList([]));
+		dispatch(uiThemeActions.setDarkMode(false));
+		dispatch(uiThemeActions.activePremium(false));
 		dispatch(
 			uiThemeActions.setLogInfo({
 				isVisible: true,
