@@ -1,6 +1,5 @@
 import React from "react";
 import FormOverlayModal from "../UI/FormOverlayModal";
-import useDisplay from "../../store/display-ctx";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	clearForm,
@@ -10,11 +9,15 @@ import {
 	setTitle,
 } from "../../store/e-form-reducer";
 import { addExpense, updateExpense } from "../../store/expense-action-thunks";
+import { uiThemeActions } from "../../store/ui-theme-reducer";
 
 const options = [
 	"Grocery",
 	"Petrol",
 	"Salary",
+	"Snacks",
+	"Tech",
+	"Subscriptions",
 	"Electricity",
 	"Movies",
 	"Shopping",
@@ -22,27 +25,12 @@ const options = [
 ];
 
 const ExpenseForm = () => {
-	// const [amount, setAmount] = useState("");
-	// const [title, setTitle] = useState("");
-	// const [category, setCategory] = useState("");
-	// const { setExpense, addtoExpenseList, editExpense, expenseUpdateHandler } =useExpense();
-	// const {
-	// 	amount,
-	// 	setAmount,
-	// 	title,
-	// 	setTitle,
-	// 	category,
-	// 	setCategory,
-	// } = setExpense;
-
 	const dispatch = useDispatch();
 	const { amount, title, category } = useSelector(
 		(state) => state.expenseForm,
 	);
 	const userID = useSelector((state) => state.auth.userID);
 	const isEditID = useSelector((state) => state.expenseForm.isEditID);
-
-	const { setExpenseFormDisplay } = useDisplay();
 
 	const handleExpense = (event) => {
 		event.preventDefault();
@@ -74,7 +62,7 @@ const ExpenseForm = () => {
 	};
 
 	const handleCloseForm = () => {
-		setExpenseFormDisplay(false);
+		dispatch(uiThemeActions.setFormDisplay(false));
 		dispatch(clearForm());
 		dispatch(setEdit(false));
 	};

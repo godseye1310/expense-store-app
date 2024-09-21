@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { fetchExpense } from "./expense-action-thunks";
+import { uiThemeActions } from "./ui-theme-reducer";
 
 const initialState = {
 	isLoggedIn: false,
@@ -16,7 +17,7 @@ const authSlice = createSlice({
 		handleLogIn(state, action) {
 			state.isLoggedIn = true;
 			state.token = action.payload;
-			console.log(state.isLoggedIn);
+			// console.log(state.isLoggedIn);
 		},
 		handleLogout(state) {
 			state.token = null;
@@ -59,7 +60,22 @@ export const fetchProfile = (token, navigateTo) => {
 				localStorage.removeItem("token");
 				navigateTo("/", { replace: true });
 				alert("Session Time-out. The user must sign in again.");
+				dispatch(
+					uiThemeActions.setLogInfo({
+						isVisible: true,
+						info: "Session Timed-out. Please sign in Again!",
+					}),
+				);
 			}
+		} finally {
+			setTimeout(() => {
+				dispatch(
+					uiThemeActions.setLogInfo({
+						isVisible: false,
+						info: "",
+					}),
+				);
+			}, 1500);
 		}
 	};
 };

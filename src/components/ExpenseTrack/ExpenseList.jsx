@@ -1,5 +1,4 @@
 import React from "react";
-import useDisplay from "../../store/display-ctx";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteExpense } from "../../store/expense-action-thunks";
 import {
@@ -10,9 +9,9 @@ import {
 } from "../../store/e-form-reducer";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { HiPencilAlt } from "react-icons/hi";
+import { uiThemeActions } from "../../store/ui-theme-reducer";
 
 const ExpenseList = () => {
-	const { setExpenseFormDisplay } = useDisplay();
 	const expenseList = useSelector((state) => state.expense.expenseList);
 	const userID = useSelector((state) => state.auth.userID);
 	const dispatch = useDispatch();
@@ -22,7 +21,7 @@ const ExpenseList = () => {
 	};
 
 	const handleEdit = (item) => {
-		setExpenseFormDisplay(true);
+		dispatch(uiThemeActions.setFormDisplay(true));
 		// console.log(item);
 		dispatch(setAmount(item.amount));
 		dispatch(setTitle(item.title));
@@ -48,7 +47,7 @@ const ExpenseList = () => {
 						<div className="col-span-1 self-center text-left font-bold max-md:col-span-2">
 							Amount
 						</div>
-						<div className="col-span-4 self-center text-left font-bold">
+						<div className="col-span-3 self-center text-left font-bold">
 							Title
 						</div>
 						<div className="col-span-2 self-center text-left font-bold">
@@ -66,7 +65,7 @@ const ExpenseList = () => {
 								<div className="col-span-1 self-center text-left font-bold max-md:col-span-2">
 									${item.amount}
 								</div>
-								<div className="col-span-4 self-center text-left">
+								<div className="col-span-3 self-center text-left">
 									{item.title}
 								</div>
 								<div className="col-span-2 self-center text-left font-semibold">
@@ -82,7 +81,7 @@ const ExpenseList = () => {
 								<button
 									onClick={() => handleEdit(item)}
 									type="button"
-									className="col-span-1 self-center justify-self-center rounded bg-amber-500 p-1 text-gray-100 hover:bg-amber-600 hover:text-white"
+									className="col-span-1 self-center justify-self-center rounded bg-blue-500 p-1 text-amber-500 hover:bg-amber-600 hover:text-white"
 								>
 									<HiPencilAlt className="text-lg" />
 								</button>

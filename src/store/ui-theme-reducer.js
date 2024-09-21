@@ -6,10 +6,15 @@ const uiThemeSlice = createSlice({
 		darkMode: false,
 		isPremium: false,
 		message: {
-			status: "",
+			isVisible: false,
 			info: "",
 			clxName: "",
 		},
+		logInfo: {
+			isVisible: false,
+			info: "",
+		},
+		isEformDisplay: false,
 	},
 	reducers: {
 		toggleDarkMode: (state) => {
@@ -18,12 +23,21 @@ const uiThemeSlice = createSlice({
 		activePremium: (state, action) => {
 			state.isPremium = action.payload;
 		},
-		expenseinfo(state, action) {
+		setExpenseinfo(state, action) {
 			state.message = {
-				status: action.payload.status,
+				isVisible: action.payload.isVisible,
 				info: action.payload.info,
 				clxName: action.payload.clxName,
 			};
+		},
+		setLogInfo(state, action) {
+			state.logInfo = {
+				isVisible: action.payload.isVisible,
+				info: action.payload.info,
+			};
+		},
+		setFormDisplay(state, action) {
+			state.isEformDisplay = action.payload;
 		},
 	},
 });

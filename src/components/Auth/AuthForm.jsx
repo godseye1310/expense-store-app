@@ -2,10 +2,9 @@ import axios from "axios";
 import React, { useState } from "react";
 import Input from "../UI/Input";
 import { useNavigate } from "react-router-dom";
-// import useAuth from "../../store/auth-context";
-import useDisplay from "../../store/display-ctx";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store/auth-reducer";
+import { uiThemeActions } from "../../store/ui-theme-reducer";
 
 const API_KEY = "AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0";
 const SIGNUP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
@@ -19,11 +18,8 @@ const AuthForm = () => {
 	const [isErrorVisible, setIsErrorVisible] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
-	// const { handleLogIn } = useAuth();
-	const dispatch = useDispatch();
-	const { handlePopupDisplay } = useDisplay();
-
 	const naviateTo = useNavigate();
+	const dispatch = useDispatch();
 
 	const isSignUpHandler = () => {
 		setIsSignUp((prev) => !prev);
@@ -48,7 +44,13 @@ const AuthForm = () => {
 				dispatch(authActions.handleLogIn(token));
 				dispatch(authActions.setUserID(response.data.localId));
 				localStorage.setItem("token", token);
-				handlePopupDisplay();
+				// handlePopupDisplay();
+				dispatch(
+					uiThemeActions.setLogInfo({
+						isVisible: true,
+						info: "Logged In Successfully",
+					}),
+				);
 				naviateTo("/home", { replace: true });
 				setEmail("");
 				setPassword("");
@@ -66,6 +68,16 @@ const AuthForm = () => {
 				setTimeout(() => setIsErrorVisible(false), 3000);
 			} finally {
 				setIsLoading(false);
+				setTimeout(
+					() =>
+						dispatch(
+							uiThemeActions.setLogInfo({
+								isVisible: false,
+								info: "",
+							}),
+						),
+					1500,
+				);
 			}
 		} else {
 			try {
@@ -80,6 +92,12 @@ const AuthForm = () => {
 					const token = response.data.idToken;
 					dispatch(authActions.handleLogIn(token));
 					dispatch(authActions.setUserID(response.data.localId));
+					dispatch(
+						uiThemeActions.setLogInfo({
+							isVisible: true,
+							info: "Signed Up Successfully",
+						}),
+					);
 					localStorage.setItem("token", token);
 				} else {
 					setErrorMessage("* Password doesnt Match");
@@ -105,6 +123,16 @@ const AuthForm = () => {
 				setTimeout(() => setIsErrorVisible(false), 3000);
 			} finally {
 				setIsLoading(false);
+				setTimeout(
+					() =>
+						dispatch(
+							uiThemeActions.setLogInfo({
+								isVisible: false,
+								info: "",
+							}),
+						),
+					1500,
+				);
 			}
 		}
 	};

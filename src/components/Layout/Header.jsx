@@ -1,8 +1,6 @@
 import React from "react";
 import { MdLogin, MdLogout, MdSunny } from "react-icons/md";
 import { NavLink, useNavigate } from "react-router-dom";
-// import useAuth from "../../store/auth-context";
-import useDisplay from "../../store/display-ctx";
 import { SiExpensify } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth-reducer";
@@ -11,8 +9,6 @@ import { expenseActions } from "../../store/expense-reducer";
 import { FaMoon } from "react-icons/fa";
 
 const Header = () => {
-	// const { isLoggedIn, handleLogOut } = useAuth();
-	const { handlePopupDisplay } = useDisplay();
 	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 	const dispatch = useDispatch();
 	const navigateTo = useNavigate();
@@ -24,8 +20,24 @@ const Header = () => {
 		localStorage.removeItem("token");
 		dispatch(authActions.handleLogout());
 		dispatch(expenseActions.setExpenseList([]));
-		handlePopupDisplay();
+		dispatch(
+			uiThemeActions.setLogInfo({
+				isVisible: true,
+				info: "Logged Out",
+			}),
+		);
+
 		navigateTo("/", { replace: true });
+		setTimeout(
+			() =>
+				dispatch(
+					uiThemeActions.setLogInfo({
+						iisVisible: false,
+						info: "",
+					}),
+				),
+			1500,
+		);
 	};
 
 	const handleTheme = () => {
@@ -40,7 +52,7 @@ const Header = () => {
 		>
 			<section className="flex items-center p-0">
 				<h1
-					className={`flex flex-col pl-1 text-3xl font-extrabold max-xs:text-xl ${darkMode ? "text-blue-500" : "text-blue-950"}`}
+					className={`flex flex-col pl-1 text-3xl font-extrabold max-xs:text-xl ${darkMode ? "text-teal-600" : "text-teal-700"}`}
 				>
 					<span>Expense</span>
 					<span className="flex items-center">

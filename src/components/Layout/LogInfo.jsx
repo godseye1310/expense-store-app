@@ -1,22 +1,18 @@
 import React from "react";
 import PopupModal from "../UI/PopupModal";
-import useDisplay from "../../store/display-ctx";
-// import useAuth from "../../store/auth-context";
 import { useSelector } from "react-redux";
+import { IoIosInformationCircle } from "react-icons/io";
 
 const LogInfo = () => {
-	// const { isLoggedIn } = useAuth();
-	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-	const { popupVisible } = useDisplay();
+	const { logInfo } = useSelector((state) => state.theme);
 
 	return (
 		<PopupModal
-			className={`left-1/2 -translate-x-1/2 transition-all duration-500 ease-in-out ${popupVisible ? "translate-y-36 opacity-100" : "-translate-y-12 opacity-0"}`}
+			className={`left-1/2 -translate-x-1/2 transition-all duration-500 ease-in-out ${logInfo.isVisible ? "translate-y-36 opacity-100" : "-translate-y-12 opacity-0"}`}
 		>
-			<p className="w-full rounded-2xl bg-blue-500 px-1 py-2 text-center text-white">
-				{isLoggedIn
-					? "Hello, Logged In Successfully"
-					: "Logged Out Successfully"}
+			<p className="flex w-full items-center justify-evenly rounded-2xl bg-emerald-600 bg-opacity-85 px-2 py-2 text-center font-semibold text-white">
+				<IoIosInformationCircle className="size-10" />
+				{logInfo.info}
 			</p>
 		</PopupModal>
 	);
