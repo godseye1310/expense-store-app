@@ -1,5 +1,5 @@
 import React from "react";
-import { MdLogin, MdLogout } from "react-icons/md";
+import { MdLogin, MdLogout, MdSunny } from "react-icons/md";
 import { NavLink, useNavigate } from "react-router-dom";
 // import useAuth from "../../store/auth-context";
 import useDisplay from "../../store/display-ctx";
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth-reducer";
 import { themeActions } from "../../store/theme-reducer";
 import { expenseActions } from "../../store/expense-reducer";
+import { FaMoon } from "react-icons/fa";
 
 const Header = () => {
 	// const { isLoggedIn, handleLogOut } = useAuth();
@@ -38,7 +39,9 @@ const Header = () => {
 			className={`flex flex-col px-0 pb-0 pt-2 ${darkMode ? "bg-slate-700" : ""}`}
 		>
 			<section className="flex items-center p-0">
-				<h1 className="flex flex-col pl-1 text-3xl font-extrabold text-blue-950 max-xs:text-xl">
+				<h1
+					className={`flex flex-col pl-1 text-3xl font-extrabold max-xs:text-xl ${darkMode ? "text-blue-500" : "text-blue-950"}`}
+				>
 					<span>Expense</span>
 					<span className="flex items-center">
 						<span>
@@ -116,10 +119,10 @@ const Header = () => {
 				</div>
 			</section>
 			<section
-				className={`flex items-center bg-blue-950 px-1 py-2 text-sm text-white`}
+				className={`flex items-center bg-blue-950 p-1 text-sm text-white`}
 			>
 				{isLoggedIn && (
-					<nav className="flex w-full flex-wrap justify-between">
+					<nav className="relative flex h-8 w-full flex-wrap items-center justify-between">
 						<ul className="flex gap-x-4 pl-1">
 							<NavLink
 								to="/profile"
@@ -144,9 +147,15 @@ const Header = () => {
 							<button
 								onClick={handleTheme}
 								type="button"
-								className="ml-auto bg-amber-600 px-2 py-0 text-sm"
+								className={`relative flex size-14 h-full items-center justify-center overflow-hidden rounded-full ${darkMode ? "bg-gray-900" : "bg-gray-300"}`}
 							>
-								theme
+								<MdSunny
+									className={`absolute size-6 transform text-amber-500 transition-all duration-500 ${darkMode ? "translate-x-3 opacity-100" : "-translate-x-10 opacity-0"}`}
+								/>
+
+								<FaMoon
+									className={`absolute size-5 rotate-6 transform text-blue-600 transition-all duration-500 ${darkMode ? "translate-x-10 opacity-0" : "-translate-x-3 opacity-100"}`}
+								/>
 							</button>
 						)}
 					</nav>

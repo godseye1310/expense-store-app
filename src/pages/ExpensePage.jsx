@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ExpenseForm from "../components/ExpenseTrack/ExpenseForm";
 import ExpenseList from "../components/ExpenseTrack/ExpenseList";
 import useDisplay from "../store/display-ctx";
 import { useDispatch, useSelector } from "react-redux";
 import { themeActions } from "../store/theme-reducer";
 import ExpenseDownloadBtn from "../components/ExpenseTrack/ExpenseDownloadBtn";
+import { FaPlus } from "react-icons/fa";
 
 const ExpensePage = () => {
 	const { expenseFormDisplay, setExpenseFormDisplay } = useDisplay();
+	const [total, setTotal] = useState(0);
 
-	const dispatch = useDispatch();
+	const dispatch = useDispatch(true);
 
 	const handlePremium = () => {
-		dispatch(themeActions.activePremium());
+		dispatch(themeActions.activePremium(true));
 	};
 	const isPremium = useSelector((state) => state.theme.isPremium);
 
@@ -21,39 +23,48 @@ const ExpensePage = () => {
 		return acc + +curr.amount;
 	}, 0);
 
+	useEffect(() => {
+		setTotal(totalExpense);
+
+		if (totalExpense < 10000) {
+			dispatch(themeActions.activePremium(false));
+		}
+	}, [totalExpense, dispatch]);
+
 	const darkMode = useSelector((state) => state.theme.darkMode);
 
 	return (
 		<div
-			className={`relative h-full w-full ${darkMode ? "bg-gray-900 text-white" : "bg-gray-300"}`}
+			className={`relative h-full w-full p-0.5 ${darkMode ? "bg-gray-900 text-white" : "bg-gray-300"}`}
 		>
 			{expenseFormDisplay && <ExpenseForm />}
+			<div>
+				<button
+					type="button"
+					onClick={() => {
+						setExpenseFormDisplay(true);
+					}}
+					className="absolute right-1/2 top-6 z-10 origin-center translate-x-1/2 translate-y-0 rounded-full bg-blue-600 text-3xl font-extrabold leading-none text-amber-400 transition-all duration-150 hover:bg-blue-800 hover:text-amber-500 hover:shadow-md hover:shadow-black/60 max-sm:fixed max-sm:bottom-10 max-sm:left-5 max-sm:right-auto max-sm:top-auto max-sm:translate-x-0 max-sm:bg-opacity-80"
+				>
+					<FaPlus className="size-16 w-full p-3 transition-all duration-300 hover:rotate-90" />
+				</button>
+
+				{total > 10000 && (
+					<div className="font-semibold text-white/90">
+						<button
+							onClick={handlePremium}
+							className="absolute right-3 top-3 rounded-md bg-gradient-to-r from-rose-500 to-amber-500 px-1.5 py-2 transition-colors duration-75 hover:from-rose-600 hover:to-amber-700"
+						>
+							Activate Premium
+						</button>
+						{isPremium && (
+							<ExpenseDownloadBtn expenseList={expenseList} />
+						)}
+					</div>
+				)}
+			</div>
+
 			<ExpenseList />
-			<button
-				type="button"
-				onClick={() => {
-					setExpenseFormDisplay(true);
-				}}
-				className="absolute left-1/2 top-1 rounded-full bg-blue-600 px-2.5 py-2 text-3xl font-extrabold leading-none text-white"
-			>
-				+
-			</button>
-
-			{totalExpense > 10000 && (
-				<div>
-					<button
-						onClick={handlePremium}
-						className="absolute right-5 top-3 rounded-md bg-amber-700 px-2 py-1"
-					>
-						Activate Premium
-					</button>
-					{isPremium && (
-						<ExpenseDownloadBtn expenseList={expenseList} />
-					)}
-				</div>
-			)}
-
-			<div className="px-5 py-8"></div>
 		</div>
 	);
 };

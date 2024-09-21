@@ -10,8 +10,8 @@ const themeSlice = createSlice({
 		toggleDarkMode: (state) => {
 			state.darkMode = !state.darkMode;
 		},
-		activePremium: (state) => {
-			state.isPremium = true;
+		activePremium: (state, action) => {
+			state.isPremium = action.payload;
 		},
 	},
 });

@@ -37,10 +37,8 @@ const Profile = () => {
 
 		try {
 			const response = await axios.post(UPDATE_USER_URL, profileData);
-			console.log(response.data);
-
+			// console.log(response.data);
 			dispatch(authActions.setUserProfile(response.data));
-
 			console.log("success");
 		} catch (error) {
 			console.log(error);
@@ -70,7 +68,7 @@ const Profile = () => {
 				<h3 className="pl-1 text-lg font-medium">
 					Winners never quit, Quitters never win
 				</h3>
-				<div className="flex rounded-lg rounded-r-none bg-red-200 px-3 py-2 pr-0">
+				<div className="flex rounded-lg rounded-r-none bg-red-300 px-3 py-2 pr-0">
 					<p className="w-96">
 						Your Profile is <strong>{pfc}%</strong> completed. A
 						complete Profile has higher chance of landing a job.{" "}

@@ -81,10 +81,13 @@ const ExpenseForm = () => {
 
 	return (
 		<FormOverlayModal onClose={handleCloseForm}>
-			<div className="relative rounded-lg bg-blue-900 p-8 text-white shadow-2xl shadow-black">
-				<form onSubmit={handleExpense} className="py-6">
-					<section className="flex flex-col gap-5 font-medium">
-						<div className="mx-auto w-64">
+			<div className="rounded-lg bg-blue-900 p-4 text-white shadow-2xl shadow-black">
+				<form
+					onSubmit={handleExpense}
+					className="w-96 px-1 py-6 max-xs:w-[315px]"
+				>
+					<section className="flex w-full flex-col gap-5 font-medium">
+						<div className="mx-auto w-full">
 							<label
 								htmlFor="e-amount"
 								className="block text-sm font-medium"
@@ -97,17 +100,18 @@ const ExpenseForm = () => {
 								type="number"
 								value={amount}
 								onChange={handleAmountChange}
+								placeholder="$ Amount"
 								required
-								className="mt-1 w-full rounded-md border border-none bg-white p-2 text-black focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+								className="mt-1 w-full rounded-md border border-none bg-white p-2 text-black placeholder-gray-900 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
 							/>
 						</div>
 
-						<div className="mx-auto w-64">
+						<div className="mx-auto w-full">
 							<label
 								htmlFor="e-title"
 								className="block text-sm font-medium"
 							>
-								title
+								Title
 							</label>
 							<input
 								id="e-title"
@@ -115,12 +119,13 @@ const ExpenseForm = () => {
 								type="text"
 								value={title}
 								onChange={handleTitleChange}
+								placeholder="Title"
 								required
-								className="mt-1 w-full rounded-md border border-none bg-white p-2 text-black focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+								className="mt-1 w-full rounded-md border border-none bg-white p-2 text-black placeholder-gray-900 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
 							/>
 						</div>
 
-						<div className="mx-auto w-64">
+						<div className="mx-auto w-full">
 							<label
 								htmlFor="e-category"
 								className="block text-sm font-medium"
@@ -147,7 +152,7 @@ const ExpenseForm = () => {
 						</div>
 					</section>
 
-					<div className="mx-auto mt-8 w-64">
+					<div className="mx-auto mt-8">
 						<button
 							type="submit"
 							className="rounded-md bg-blue-500 px-3 py-1 hover:bg-blue-600"

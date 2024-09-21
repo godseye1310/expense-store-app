@@ -1,5 +1,5 @@
 import React from "react";
-import { BiDownload } from "react-icons/bi";
+import { FaFileDownload } from "react-icons/fa";
 
 const ExpenseDownloadBtn = ({ expenseList }) => {
 	const downloadExpenseCSV = () => {
@@ -39,9 +39,9 @@ const ExpenseDownloadBtn = ({ expenseList }) => {
 	return (
 		<button
 			onClick={downloadExpenseCSV}
-			className="absolute right-5 top-16 flex items-center gap-1 rounded-2xl bg-blue-500 px-2 py-1"
+			className="absolute right-3 top-16 flex items-center gap-1 rounded-2xl bg-sky-600 px-2 py-2 text-sm font-bold text-gray-300 hover:bg-blue-600"
 		>
-			<BiDownload /> Expense
+			<FaFileDownload className="size-6" /> Expense
 		</button>
 	);
 };
