@@ -5,7 +5,7 @@ const Popup = ({ children, className }) => {
 	// console.log(className);
 	return (
 		<div
-			className={`fixed -top-9 left-1/2 z-50 inline-flex w-80 origin-center -translate-x-1/2 items-center justify-center p-0.5 ${className}`}
+			className={`fixed z-50 flex w-80 origin-center items-center justify-center p-0.5 ${className}`}
 		>
 			{children}
 		</div>

@@ -24,6 +24,7 @@ export const addExpense = (expenseItem, userID) => {
 				dispatch(clearForm());
 			} catch (error) {
 				console.log(error.response.data);
+			} finally {
 			}
 		};
 		addExpenseItem();

@@ -3,9 +3,10 @@ import ExpenseForm from "../components/ExpenseTrack/ExpenseForm";
 import ExpenseList from "../components/ExpenseTrack/ExpenseList";
 import useDisplay from "../store/display-ctx";
 import { useDispatch, useSelector } from "react-redux";
-import { themeActions } from "../store/theme-reducer";
+import { uiThemeActions } from "../store/ui-theme-reducer";
 import ExpenseDownloadBtn from "../components/ExpenseTrack/ExpenseDownloadBtn";
 import { FaPlus } from "react-icons/fa";
+import PopupModal from "../components/UI/PopupModal";
 
 const ExpensePage = () => {
 	const { expenseFormDisplay, setExpenseFormDisplay } = useDisplay();
@@ -14,7 +15,7 @@ const ExpensePage = () => {
 	const dispatch = useDispatch(true);
 
 	const handlePremium = () => {
-		dispatch(themeActions.activePremium(true));
+		dispatch(uiThemeActions.activePremium(true));
 	};
 	const isPremium = useSelector((state) => state.theme.isPremium);
 
@@ -27,7 +28,7 @@ const ExpensePage = () => {
 		setTotal(totalExpense);
 
 		if (totalExpense < 10000) {
-			dispatch(themeActions.activePremium(false));
+			dispatch(uiThemeActions.activePremium(false));
 		}
 	}, [totalExpense, dispatch]);
 
@@ -65,6 +66,13 @@ const ExpensePage = () => {
 			</div>
 
 			<ExpenseList />
+			<PopupModal
+				className={`left-1/2 -translate-x-1/2 bg-amber-600 transition-all duration-500 ease-in-out ${true ? "translate-y-16 rounded-3xl py-2 font-bold text-white/75 opacity-100" : "-translate-y-12 opacity-0"}`}
+			>
+				<div>
+					<p>Hii </p>
+				</div>
+			</PopupModal>
 		</div>
 	);
 };

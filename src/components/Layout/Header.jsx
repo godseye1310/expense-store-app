@@ -6,7 +6,7 @@ import useDisplay from "../../store/display-ctx";
 import { SiExpensify } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth-reducer";
-import { themeActions } from "../../store/theme-reducer";
+import { uiThemeActions } from "../../store/ui-theme-reducer";
 import { expenseActions } from "../../store/expense-reducer";
 import { FaMoon } from "react-icons/fa";
 
@@ -29,7 +29,7 @@ const Header = () => {
 	};
 
 	const handleTheme = () => {
-		dispatch(themeActions.toggleDarkMode());
+		dispatch(uiThemeActions.toggleDarkMode());
 	};
 
 	const darkMode = useSelector((state) => state.theme.darkMode);

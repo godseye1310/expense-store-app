@@ -11,7 +11,7 @@ const LogInfo = () => {
 
 	return (
 		<PopupModal
-			className={`transition-all duration-500 ease-in-out ${popupVisible ? "top-[123px] opacity-100" : '"-top-9 opacity-0'}`}
+			className={`left-1/2 -translate-x-1/2 transition-all duration-500 ease-in-out ${popupVisible ? "translate-y-36 opacity-100" : "-translate-y-12 opacity-0"}`}
 		>
 			<p className="w-full rounded-2xl bg-blue-500 px-1 py-2 text-center text-white">
 				{isLoggedIn
