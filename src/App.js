@@ -14,6 +14,7 @@ import About from "./pages/About";
 import Products from "./pages/Products";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/auth-reducer";
+import LoaderSpinner from "./components/UI/LoaderSpinner";
 
 // let isInitialLoad = true;
 
@@ -37,9 +38,9 @@ function App() {
 		setIsLoadingAuth(false);
 	}, [dispatch]);
 
-	// Avoid rendering routes until we check for token
+	// Avoid rendering the routes until token is Checked
 	if (isLoadingAuth) {
-		return <div>Loading...</div>; // loading spinner
+		return <LoaderSpinner />; // loading spinner
 	}
 
 	const router = createBrowserRouter([

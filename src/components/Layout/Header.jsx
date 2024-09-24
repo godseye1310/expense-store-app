@@ -133,10 +133,12 @@ const Header = () => {
 				</div>
 			</section>
 			<section
-				className={`flex items-center bg-blue-950 p-1 text-sm text-white`}
+				className={`transition-max-height relative bg-blue-950 px-1 py-1.5 text-sm text-white transition-all duration-500 ease-in-out ${isLoggedIn ? "max-h-16" : "max-h-0 overflow-hidden"}`}
 			>
-				{isLoggedIn && (
-					<nav className="relative flex h-8 w-full flex-wrap items-center justify-between">
+				{
+					<nav
+						className={`flex w-full flex-wrap items-center justify-between py-1 ${isLoggedIn ? "scale-100" : "scale-0"}`}
+					>
 						<ul className="flex gap-x-4 pl-1">
 							<NavLink
 								to="/profile"
@@ -158,22 +160,24 @@ const Header = () => {
 						</ul>
 
 						{isPremium && (
-							<button
-								onClick={handleTheme}
-								type="button"
-								className={`relative flex size-14 h-full items-center justify-center overflow-hidden rounded-full ${darkMode ? "bg-gray-900" : "bg-gray-300"}`}
-							>
-								<MdSunny
-									className={`absolute size-6 transform text-amber-500 transition-all duration-500 ${darkMode ? "translate-x-3 opacity-100" : "-translate-x-10 opacity-0"}`}
-								/>
+							<div className="absolute right-0 py-0.5">
+								<button
+									onClick={handleTheme}
+									type="button"
+									className={`relative flex h-7 w-14 items-center justify-center overflow-hidden rounded-full ${darkMode ? "bg-gray-900" : "bg-gray-300"}`}
+								>
+									<MdSunny
+										className={`absolute size-6 transform text-amber-500 transition-all duration-500 ${darkMode ? "translate-x-3 opacity-100" : "-translate-x-10 opacity-0"}`}
+									/>
 
-								<FaMoon
-									className={`absolute size-5 rotate-6 transform text-blue-600 transition-all duration-500 ${darkMode ? "translate-x-10 opacity-0" : "-translate-x-3 opacity-100"}`}
-								/>
-							</button>
+									<FaMoon
+										className={`absolute size-5 rotate-6 transform text-blue-600 transition-all duration-500 ${darkMode ? "translate-x-10 opacity-0" : "-translate-x-3 opacity-100"}`}
+									/>
+								</button>
+							</div>
 						)}
 					</nav>
-				)}
+				}
 			</section>
 		</header>
 	);
