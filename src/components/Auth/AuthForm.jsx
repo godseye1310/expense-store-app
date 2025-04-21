@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../../store/auth-reducer";
 import { uiThemeActions } from "../../store/ui-theme-reducer";
 
-const API_KEY = "AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0";
+const API_KEY = "AIzaSyCXlSCfAbbr-m_HjkDJRm7dPXV0Sajc9xM";
 const SIGNUP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
 const SIGNIN_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
 

@@ -4,7 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const API_KEY = `AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0`;
+const API_KEY = `AIzaSyCXlSCfAbbr-m_HjkDJRm7dPXV0Sajc9xM`;
 const VERIFY_URL = `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${API_KEY}`;
 
 const VerifyEmailBtn = () => {

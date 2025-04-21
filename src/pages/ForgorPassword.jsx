@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-const API_KEY = "AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0";
+const API_KEY = "AIzaSyCXlSCfAbbr-m_HjkDJRm7dPXV0Sajc9xM";
 const PASSWORD_RESET_LINK = `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${API_KEY}`;
 
 //https://firebase.google.com/docs/reference/rest/auth#section-send-password-reset-email

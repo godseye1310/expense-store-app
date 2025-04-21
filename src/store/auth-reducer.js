@@ -38,7 +38,7 @@ export const authActions = authSlice.actions;
 
 export default authSlice.reducer;
 
-const API_KEY = `AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0`;
+const API_KEY = `AIzaSyCXlSCfAbbr-m_HjkDJRm7dPXV0Sajc9xM`;
 const FETCH_USER_URL = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`;
 
 export const fetchProfile = (token, navigateTo) => {
@@ -47,7 +47,7 @@ export const fetchProfile = (token, navigateTo) => {
 			const response = await axios.post(FETCH_USER_URL, {
 				idToken: token,
 			});
-			// console.log(response.data);
+			console.log(response.data);
 			const userProfileData = response.data.users[0];
 			dispatch(authActions.setUserID(userProfileData.localId));
 			dispatch(authActions.setUserProfile(userProfileData));

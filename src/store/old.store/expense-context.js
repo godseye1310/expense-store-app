@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 
 const ExpenseContext = React.createContext();
 
-const RTDB_URL = `https://expense-store-app-default-rtdb.asia-southeast1.firebasedatabase.app/userExpense`;
+const RTDB_URL = `https://ecommerce-userdata-default-rtdb.asia-southeast1.firebasedatabase.app/expenseStoreUser/userExpense`;
 
 export const ExpenseProvider = ({ children }) => {
 	const [amount, setAmount] = useState("");

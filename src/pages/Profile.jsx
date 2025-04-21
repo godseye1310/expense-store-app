@@ -7,7 +7,7 @@ import PopupModal from "../components/UI/PopupModal";
 import { FaCheckCircle } from "react-icons/fa";
 import { uiThemeActions } from "../store/ui-theme-reducer";
 
-const API_KEY = `AIzaSyAeaA33_FQzcq-GcLm5gDhBeAvjaFxOMY0`;
+const API_KEY = `AIzaSyCXlSCfAbbr-m_HjkDJRm7dPXV0Sajc9xM`;
 const UPDATE_USER_URL = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${API_KEY}`;
 
 const Profile = () => {
